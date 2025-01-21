@@ -15,6 +15,8 @@ export class PlaywrightDashboardPage {
   readonly TambahPembeli: Locator;
   readonly EditPembeliButton: Locator;
   readonly EditPembeli: Locator;
+  readonly LihatPembeliButton: Locator;
+  readonly LihatPembeli: Locator;
 
   readonly TambahTransaksiCashButton: Locator;
   readonly TambahTransaksiCash: Locator;
@@ -25,6 +27,7 @@ export class PlaywrightDashboardPage {
   readonly TambahTransaksiKredit: Locator;
   readonly EditBeliKreditButton: Locator;
   readonly EditBeliKredit: Locator;
+  readonly LihatBeliKredit: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -48,6 +51,7 @@ export class PlaywrightDashboardPage {
     this.TambahPembeliButton = page.locator("a", { hasText: "Tambah Pembeli" });
     this.TambahPembeli = page.locator("h1", { hasText: "Tambah Pembeli" });
     this.EditPembeli = page.locator("h1", { hasText: "Edit Pembeli" });
+    this.LihatPembeli = page.locator("h1", { hasText: "Lihat Pembeli" });
 
     this.TambahTransaksiCashButton = page.locator("a", {
       hasText: "Tambah Transaksi Cash",
@@ -56,7 +60,7 @@ export class PlaywrightDashboardPage {
       hasText: "Tambah Transaksi Cash",
     });
     this.EditBeliCash = page.locator("h1", {
-      hasText: "Edit Transaksi Cash",
+      hasText: "Daftar Transaksi Cash",
     });
 
     this.TambahTransaksiKreditButton = page.locator("a", {
@@ -65,12 +69,10 @@ export class PlaywrightDashboardPage {
     this.TambahTransaksiKredit = page.locator("h1", {
       hasText: "Tambah Transaksi Kredit",
     });
-    this.TambahTransaksiKredit = page.locator("h1", {
-      hasText: "Tambah Transaksi Kredit",
-    });
     this.EditBeliKredit = page.locator("h1", {
       hasText: "Edit Transaksi Kredit",
     });
+    this.LihatBeliKredit = page.locator("h1", { hasText: "Lihat Beli Kredit" });
   }
 
   async cekTitle() {
@@ -118,6 +120,13 @@ export class PlaywrightDashboardPage {
     await expect(this.EditPembeli).toBeVisible();
   }
 
+  async cekLihatPembeli() {
+    await expect(this.page).toHaveURL(
+      "http://127.0.0.1:8000/pembelis/1234567890123456"
+    );
+    await expect(this.LihatPembeli).toBeVisible();
+  }
+
   async cekTambahTransaksiCash() {
     await this.TambahTransaksiCashButton.click();
     await expect(this.page).toHaveURL("http://127.0.0.1:8000/beli-cash/create");
@@ -144,5 +153,10 @@ export class PlaywrightDashboardPage {
       "http://127.0.0.1:8000/beli-kredit/K001/edit"
     );
     await expect(this.EditBeliKredit).toBeVisible();
+  }
+
+  async cekLihatBeliKredit() {
+    await expect(this.page).toHaveURL("http://127.0.0.1:8000/beli-kredit/K001");
+    await expect(this.LihatBeliKredit).toBeVisible();
   }
 }

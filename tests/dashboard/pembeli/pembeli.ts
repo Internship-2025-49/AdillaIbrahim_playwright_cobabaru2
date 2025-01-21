@@ -32,7 +32,7 @@ export class PlaywrightPembeliPage {
     await this.page
       .locator("input#pembeli_No_KTP")
       .waitFor({ state: "visible" });
-    await this.noKtpInput.fill(pembeli_No_KTP);
+    await this.noKtpInput.selectOption(pembeli_No_KTP);
     await this.page.locator("input#pembeli_nama").waitFor({ state: "visible" });
     await this.namaInput.fill(pembeli_nama);
     await this.page

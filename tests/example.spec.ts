@@ -6,12 +6,14 @@ import { PlaywrightSidebarPage } from "./dashboard/sidebar";
 
 import { PlaywrightPembeliPage } from "./dashboard/pembeli/pembeli";
 import { PlaywrightPembeliEditPage } from "./dashboard/pembeli/editpembeli";
+import { PlaywrightLihatPembeliPage } from "./dashboard/pembeli/lihatpembeli";
 
 import { PlaywrightBeliCashPage } from "./dashboard/belicash/belicash";
 import { PlaywrightBeliCashEditPage } from "./dashboard/belicash/editbelicash";
 
 import { PlaywrightBeliKreditPage } from "./dashboard/belikredit/belikredit";
 import { PlaywrightBeliKreditEditPage } from "./dashboard/belikredit/editbelikredit";
+import { PlaywrightLihatBeliKreditPage } from "./dashboard/belikredit/lihatbelikredit";
 
 const emailUser = "adilla@gmail.com";
 const passUser = "adilla0306";
@@ -23,10 +25,12 @@ test.describe("motomarker", () => {
   let sidebarPage: PlaywrightSidebarPage;
   let pembeliPage: PlaywrightPembeliPage;
   let editpembeliPage: PlaywrightPembeliEditPage;
+  let lihatpembeliPage: PlaywrightLihatPembeliPage;
   let belicashPage: PlaywrightBeliCashPage;
   let editbelicashPage: PlaywrightBeliCashEditPage;
   let belikreditPage: PlaywrightBeliKreditPage;
   let editbelikreditPage: PlaywrightBeliKreditEditPage;
+  let lihatbelikreditPage: PlaywrightLihatBeliKreditPage;
 
   test.beforeEach(async ({ page }) => {
     dashboardPage = new PlaywrightDashboardPage(page);
@@ -35,10 +39,12 @@ test.describe("motomarker", () => {
     sidebarPage = new PlaywrightSidebarPage(page);
     pembeliPage = new PlaywrightPembeliPage(page);
     editpembeliPage = new PlaywrightPembeliEditPage(page);
+    lihatpembeliPage = new PlaywrightLihatPembeliPage(page);
     belicashPage = new PlaywrightBeliCashPage(page);
     editbelicashPage = new PlaywrightBeliCashEditPage(page);
     belikreditPage = new PlaywrightBeliKreditPage(page);
     editbelikreditPage = new PlaywrightBeliKreditEditPage(page);
+    lihatbelikreditPage = new PlaywrightLihatBeliKreditPage(page);
 
     await page.goto("http://127.0.0.1:8000/login");
 
@@ -56,6 +62,7 @@ test.describe("motomarker", () => {
     await dashboardPage.cekKontenPembeli();
     await dashboardPage.cekTambahPembeli();
     await sidebarPage.cekEditPembeli();
+    await sidebarPage.cekLihatPembeli();
 
     await sidebarPage.cekBeliCash();
     await dashboardPage.cekKontenBeliCash();
@@ -69,6 +76,7 @@ test.describe("motomarker", () => {
     await dashboardPage.cekKontenBeliKredit();
     await dashboardPage.cekTambahTransaksiKredit();
     await sidebarPage.cekEditBeliKredit();
+    await sidebarPage.cekLihatBeliKredit();
 
     await sidebarPage.cekBayarCicilan();
     await dashboardPage.cekKontenBayarCicilan();
@@ -96,7 +104,7 @@ test.describe("motomarker", () => {
       "TXC-001",
       "NMAX",
       "25000000",
-      "Adilla Ibrahim",
+      "Adilla",
       "2025-01-20"
     );
     await belicashPage.submitFormBeliCash();
