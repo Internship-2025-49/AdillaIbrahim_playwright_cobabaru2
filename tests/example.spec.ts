@@ -18,6 +18,8 @@ import { PlaywrightBeliKreditEditPage } from "./dashboard/belikredit/editbelikre
 import { PlaywrightLihatBeliKreditPage } from "./dashboard/belikredit/lihatbelikredit";
 import { PlaywrightHapusBeliKreditPage } from "./dashboard/belikredit/hapusbelikredit";
 
+import { PlaywrightBayarCicilanCashPage } from "./dashboard/bayarcicilan/bayarcicilan";
+
 const emailUser = "adilla@gmail.com";
 const passUser = "adilla0306";
 
@@ -37,6 +39,7 @@ test.describe("motomarker", () => {
   let editbelikreditPage: PlaywrightBeliKreditEditPage;
   let lihatbelikreditPage: PlaywrightLihatBeliKreditPage;
   let hapusBeliKreditPage: PlaywrightHapusBeliKreditPage;
+  let bayarcicilanPage: PlaywrightBayarCicilanCashPage;
 
   test.beforeEach(async ({ page }) => {
     dashboardPage = new PlaywrightDashboardPage(page);
@@ -54,6 +57,7 @@ test.describe("motomarker", () => {
     editbelikreditPage = new PlaywrightBeliKreditEditPage(page);
     lihatbelikreditPage = new PlaywrightLihatBeliKreditPage(page);
     hapusBeliKreditPage = new PlaywrightHapusBeliKreditPage(page);
+    bayarcicilanPage = new PlaywrightBayarCicilanCashPage(page);
 
     await page.goto("http://127.0.0.1:8000/login");
 
@@ -81,6 +85,7 @@ test.describe("motomarker", () => {
 
     await sidebarPage.cekBayarCicilan();
     await dashboardPage.cekKontenBayarCicilan();
+
     await sidebarPage.cekKontak();
     await dashboardPage.cekKontenKontak();
   });
@@ -117,6 +122,13 @@ test.describe("motomarker", () => {
     );
     await belikreditPage.submitFormBeliKredit();
     await belikreditPage.MemastikanBeliKreditMasuk();
+  });
+
+  test("submit pembayaran cicilan form", async ({ page }) => {
+    await sidebarPage.cekBayarCicilan();
+    await bayarcicilanPage.inputbayarcicilan("1", "2025-01-01");
+    await bayarcicilanPage.submitFormBayarCicilan();
+    await bayarcicilanPage.MemastikanBayarCicilanMasuk();
   });
 
   test("edit pembeli form", async ({ page }) => {
