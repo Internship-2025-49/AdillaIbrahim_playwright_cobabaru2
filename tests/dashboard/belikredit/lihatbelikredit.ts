@@ -11,16 +11,17 @@ export class PlaywrightLihatBeliKreditPage {
     this.headerBeliKredit = page.locator("h1", {
       hasText: "Daftar Transaksi Kredit",
     });
-    this.lihatButton = page.locator("input#lihat_belikredit");
-    this.kembaliButton = page.locator("a", { hasText: "Kembali" });
+    this.lihatButton = page.locator("a", { hasText: "Lihat" });
+    this.kembaliButton = page.locator("button", { hasText: "Kembali" });
   }
 
-  async goToLihatPembeli() {
+  async goToLihatBeliKredit() {
     await expect(this.headerBeliKredit).toBeVisible();
-    await this.lihatButton.click();
+    await this.lihatButton.first().click();
     await expect(
-      this.page.locator("h1", { hasText: "Lihat Pembeli" })
+      this.page.locator("h1", { hasText: "Lihat Beli Kredit" })
     ).toBeVisible();
     await this.kembaliButton.click();
+    await expect(this.headerBeliKredit).toBeVisible();
   }
 }

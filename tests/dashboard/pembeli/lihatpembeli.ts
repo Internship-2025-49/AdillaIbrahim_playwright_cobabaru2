@@ -9,16 +9,17 @@ export class PlaywrightLihatPembeliPage {
   constructor(page: Page) {
     this.page = page;
     this.headerPembeli = page.locator("h1", { hasText: "Daftar Pembeli" });
-    this.lihatButton = page.locator("input#lihat_pembeli");
-    this.kembaliButton = page.locator("a", { hasText: "Kembali" });
+    this.lihatButton = page.locator("a", { hasText: "Lihat" });
+    this.kembaliButton = page.locator("button", { hasText: "Kembali" });
   }
 
   async goToLihatPembeli() {
     await expect(this.headerPembeli).toBeVisible();
-    await this.lihatButton.click();
+    await this.lihatButton.first().click();
     await expect(
       this.page.locator("h1", { hasText: "Lihat Pembeli" })
     ).toBeVisible();
     await this.kembaliButton.click();
+    await expect(this.headerPembeli).toBeVisible();
   }
 }
