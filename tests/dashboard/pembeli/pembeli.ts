@@ -24,9 +24,8 @@ export class PlaywrightPembeliPage {
     this.simpanButton = page.locator("button", { hasText: "Simpan" });
   }
 
-  async inputpembeli() {
+  async inputpembeli(pembeli_nama: string) {
     const pembeli_No_KTP = faker.string.numeric(16);
-    const pembeli_nama = faker.person.fullName();
     const pembeli_alamat = faker.location.streetAddress();
     const pembeli_telpon = faker.phone.number({ style: "human" });
 
