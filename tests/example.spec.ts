@@ -87,7 +87,7 @@ test.describe("motomarker", () => {
 
   test("submit pembeli form", async ({ page }) => {
     await sidebarPage.cekPembeli();
-    await pembeliPage.inputpembeli();
+    await pembeliPage.inputpembeli("Adilla Ibrahim");
     await pembeliPage.submitFormPembeli();
     await pembeliPage.MemastikanPembeliMasuk();
   });
@@ -107,7 +107,7 @@ test.describe("motomarker", () => {
   test("submit transaksi kredit form", async ({ page }) => {
     await sidebarPage.cekBeliKredit();
     await belikreditPage.inputbelikredit(
-      "Adilla Ibrahim",
+      "Jelita Zalindra",
       "Beat",
       "2025-01-01",
       "P002",
