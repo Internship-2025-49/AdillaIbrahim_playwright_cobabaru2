@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from "@playwright/test";
+import { faker } from "@faker-js/faker/locale/id_ID";
 
 export class PlaywrightPembeliPage {
   readonly page: Page;
@@ -15,7 +16,7 @@ export class PlaywrightPembeliPage {
     this.page = page;
     this.daftarPembeli = page.locator("h1", { hasText: "Daftar Pembeli" });
     this.editButton = page.locator("button", { hasText: "Edit" });
-    this.tambahPembeli = page.locator("h1", { hasText: "Tambah Pembeli" });
+    this.tambahPembeli = page.locator("a", { hasText: "Tambah Pembeli" });
     this.noKtpInput = page.locator("input#pembeli_No_KTP");
     this.namaInput = page.locator("input#pembeli_nama");
     this.alamatInput = page.locator("input#pembeli_alamat");
@@ -23,16 +24,17 @@ export class PlaywrightPembeliPage {
     this.simpanButton = page.locator("button", { hasText: "Simpan" });
   }
 
-  async inputpembeli(
-    pembeli_No_KTP: string,
-    pembeli_nama: string,
-    pembeli_alamat: string,
-    pembeli_telpon: string
-  ) {
+  async inputpembeli() {
+    const pembeli_No_KTP = faker.string.numeric(16);
+    const pembeli_nama = faker.person.fullName();
+    const pembeli_alamat = faker.location.streetAddress();
+    const pembeli_telpon = faker.phone.number({ style: "human" });
+
+    await this.tambahPembeli.first().click();
     await this.page
       .locator("input#pembeli_No_KTP")
       .waitFor({ state: "visible" });
-    await this.noKtpInput.selectOption(pembeli_No_KTP);
+    await this.noKtpInput.fill(pembeli_No_KTP);
     await this.page.locator("input#pembeli_nama").waitFor({ state: "visible" });
     await this.namaInput.fill(pembeli_nama);
     await this.page

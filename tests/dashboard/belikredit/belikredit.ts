@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from "@playwright/test";
+import { faker } from "@faker-js/faker/locale/id_ID";
 
 export class PlaywrightBeliKreditPage {
   readonly page: Page;
@@ -15,7 +16,7 @@ export class PlaywrightBeliKreditPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.tambahTransaksiKredit = page.locator("h1", {
+    this.tambahTransaksiKredit = page.locator("a", {
       hasText: "Tambah Transaksi Kredit",
     });
     this.kodeTransaksiInput = page.locator("input#kridit_kode");
@@ -30,22 +31,24 @@ export class PlaywrightBeliKreditPage {
   }
 
   async inputbelikredit(
-    kridit_kode: string,
     pembeli_No_KTP: string,
     motor_kode: string,
-    paket_kode: string,
     kridit_tanggal: string,
+    paket_kode: string,
     fotokopi_KTP: string,
     fotokopi_KK: string,
     fotokopi_slip_gaji: string
   ) {
+    const kridit_kode = faker.string.numeric();
+
+    await this.tambahTransaksiKredit.first().click();
     await this.page.locator("input#kridit_kode").waitFor({ state: "visible" });
     await this.kodeTransaksiInput.fill(kridit_kode);
 
     await this.page
       .locator("select#pembeli_No_KTP")
       .waitFor({ state: "visible" });
-    await this.pembeliDropdown.selectOption({ label: pembeli_No_KTP });
+    await this.pembeliDropdown.first().selectOption({ label: pembeli_No_KTP });
 
     await this.page.locator("select#motor_kode").waitFor({ state: "visible" });
     await this.motorDropdown.selectOption({ label: motor_kode });

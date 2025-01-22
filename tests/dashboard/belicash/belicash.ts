@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from "@playwright/test";
+import { faker } from "@faker-js/faker/locale/id_ID";
 
 export class PlaywrightBeliCashPage {
   readonly page: Page;
@@ -12,7 +13,7 @@ export class PlaywrightBeliCashPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.tambahTransaksiCash = page.locator("h1", {
+    this.tambahTransaksiCash = page.locator("a", {
       hasText: "Tambah Transaksi Cash",
     });
     this.kodeTransaksiInput = page.locator("input#cash_kode");
@@ -24,12 +25,14 @@ export class PlaywrightBeliCashPage {
   }
 
   async inputbelicash(
-    cash_kode: string,
     motor_kode: string,
     cash_bayar: string,
     pembeli_No_KTP: string,
     cash_tanggal: string
   ) {
+    const cash_kode = faker.string.numeric();
+
+    await this.tambahTransaksiCash.first().click();
     await this.page.locator("input#cash_kode").waitFor({ state: "visible" });
     await this.kodeTransaksiInput.fill(cash_kode);
     await this.page.locator("select#motor_kode").waitFor({ state: "visible" });
