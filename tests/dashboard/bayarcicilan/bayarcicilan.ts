@@ -1,7 +1,7 @@
 import { expect, type Locator, type Page } from "@playwright/test";
 import { faker } from "@faker-js/faker/locale/id_ID";
 
-export class PlaywrightBayarCicilanCashPage {
+export class PlaywrightBayarCicilanPage {
   readonly page: Page;
   readonly tambahPembayaranCicilan: Locator;
   readonly kodeCicilan: Locator;

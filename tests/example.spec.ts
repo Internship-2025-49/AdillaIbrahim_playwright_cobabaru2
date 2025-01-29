@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test as base, BrowserContext, Page } from "@playwright/test";
 import { PlaywrightLoginPage } from "./auth/login";
 import { PlaywrightRegisterPage } from "./auth/register";
 import { PlaywrightDashboardPage } from "./dashboard/dashboard";
@@ -18,86 +18,112 @@ import { PlaywrightBeliKreditEditPage } from "./dashboard/belikredit/editbelikre
 import { PlaywrightLihatBeliKreditPage } from "./dashboard/belikredit/lihatbelikredit";
 import { PlaywrightHapusBeliKreditPage } from "./dashboard/belikredit/hapusbelikredit";
 
-import { PlaywrightBayarCicilanCashPage } from "./dashboard/bayarcicilan/bayarcicilan";
+import { PlaywrightBayarCicilanPage } from "./dashboard/bayarcicilan/bayarcicilan";
 
-const emailUser = "adilla@gmail.com";
-const passUser = "adilla0306";
+import { PlaywrightLogoutPage } from "./auth/logout";
+import { register } from "module";
+
+let context: BrowserContext;
+let page: Page;
+
+const test = base.extend({
+  loginPage: async ({}, use) => {
+    await use(new PlaywrightLoginPage(page));
+  },
+  registerPage: async ({}, use) => {
+    await use(new PlaywrightRegisterPage(page));
+  },
+  dashboardPage: async ({}, use) => {
+    await use(new PlaywrightDashboardPage(page));
+  },
+  sidebarPage: async ({}, use) => {
+    await use(new PlaywrightSidebarPage(page));
+  },
+  pembeliPage: async ({}, use) => {
+    await use(new PlaywrightPembeliPage(page));
+  },
+  editpembeliPage: async ({}, use) => {
+    await use(new PlaywrightPembeliEditPage(page));
+  },
+  lihatpembeliPage: async ({}, use) => {
+    await use(new PlaywrightLihatPembeliPage(page));
+  },
+  hapuspembeliPage: async ({}, use) => {
+    await use(new PlaywrightHapusPembeliPage(page));
+  },
+  belicashPage: async ({}, use) => {
+    await use(new PlaywrightBeliCashPage(page));
+  },
+  editbelicashPage: async ({}, use) => {
+    await use(new PlaywrightBeliCashEditPage(page));
+  },
+  hapusbelicashPage: async ({}, use) => {
+    await use(new PlaywrightHapusBeliCashPage(page));
+  },
+  belikreditPage: async ({}, use) => {
+    await use(new PlaywrightBeliKreditPage(page));
+  },
+  editbelikreditPage: async ({}, use) => {
+    await use(new PlaywrightBeliKreditEditPage(page));
+  },
+  lihatbelikreditPage: async ({}, use) => {
+    await use(new PlaywrightLihatBeliKreditPage(page));
+  },
+  hapusbelikreditPage: async ({}, use) => {
+    await use(new PlaywrightHapusBeliKreditPage(page));
+  },
+  bayarcicilanPage: async ({}, use) => {
+    await use(new PlaywrightBayarCicilanPage(page));
+  },
+  logoutPage: async ({}, use) => {
+    await use(new PlaywrightLogoutPage(page));
+  },
+});
 
 test.describe("motomarker", () => {
-  let dashboardPage: PlaywrightDashboardPage;
-  let loginPage: PlaywrightLoginPage;
-  let registerPage: PlaywrightRegisterPage;
-  let sidebarPage: PlaywrightSidebarPage;
-  let pembeliPage: PlaywrightPembeliPage;
-  let editpembeliPage: PlaywrightPembeliEditPage;
-  let lihatpembeliPage: PlaywrightLihatPembeliPage;
-  let hapuspembeliPage: PlaywrightHapusPembeliPage;
-  let belicashPage: PlaywrightBeliCashPage;
-  let editbelicashPage: PlaywrightBeliCashEditPage;
-  let hapusBeliCashPage: PlaywrightHapusBeliCashPage;
-  let belikreditPage: PlaywrightBeliKreditPage;
-  let editbelikreditPage: PlaywrightBeliKreditEditPage;
-  let lihatbelikreditPage: PlaywrightLihatBeliKreditPage;
-  let hapusBeliKreditPage: PlaywrightHapusBeliKreditPage;
-  let bayarcicilanPage: PlaywrightBayarCicilanCashPage;
+  test.beforeAll(async ({ browser }) => {
+    context = await browser.newContext();
+    page = await context.newPage();
+    const loginPage = new PlaywrightLoginPage(page);
+    const registerPage = new PlaywrightRegisterPage(page);
 
-  test.beforeEach(async ({ page }) => {
-    dashboardPage = new PlaywrightDashboardPage(page);
-    loginPage = new PlaywrightLoginPage(page);
-    registerPage = new PlaywrightRegisterPage(page);
-    sidebarPage = new PlaywrightSidebarPage(page);
-    pembeliPage = new PlaywrightPembeliPage(page);
-    editpembeliPage = new PlaywrightPembeliEditPage(page);
-    lihatpembeliPage = new PlaywrightLihatPembeliPage(page);
-    hapuspembeliPage = new PlaywrightHapusPembeliPage(page);
-    belicashPage = new PlaywrightBeliCashPage(page);
-    editbelicashPage = new PlaywrightBeliCashEditPage(page);
-    hapusBeliCashPage = new PlaywrightHapusBeliCashPage(page);
-    belikreditPage = new PlaywrightBeliKreditPage(page);
-    editbelikreditPage = new PlaywrightBeliKreditEditPage(page);
-    lihatbelikreditPage = new PlaywrightLihatBeliKreditPage(page);
-    hapusBeliKreditPage = new PlaywrightHapusBeliKreditPage(page);
-    bayarcicilanPage = new PlaywrightBayarCicilanCashPage(page);
-
-    await page.goto("http://127.0.0.1:8000/login");
-
+    await page.goto("/login");
     await registerPage.toRegisPage();
     await loginPage.goToLoginPage();
-    await loginPage.inputlogin(emailUser, passUser);
+    await loginPage.inputlogin("adilla@gmail.com", "adilla0306");
   });
 
-  test("register page", async ({ page }) => {
+  test.beforeEach(async ({ dashboardPage }) => {
     await dashboardPage.cekTitle();
-    await sidebarPage.cekMotor();
-    await dashboardPage.cekKontenMotor();
+  });
+  // test.beforeEach(async ({ dashboardPage }) => {
+  //   // await loginPage.page.goto("/login");
+  //   // console.log("Register");
+  //   // await registerPage.toRegisPage();
+  //   // await loginPage.goToLoginPage();
+  //   // await loginPage.inputlogin("adilla@gmail.com", "adilla0306");
 
-    await sidebarPage.cekPembeli();
-    await dashboardPage.cekKontenPembeli();
+  //   await dashboardPage.cekTitle();
+  // });
 
-    await sidebarPage.cekBeliCash();
-    await dashboardPage.cekKontenBeliCash();
-
-    await sidebarPage.cekKreditPaket();
-    await dashboardPage.cekKontenKreditPaket();
-
-    await sidebarPage.cekBeliKredit();
-    await dashboardPage.cekKontenBeliKredit();
-
-    await sidebarPage.cekBayarCicilan();
-    await dashboardPage.cekKontenBayarCicilan();
-
-    await sidebarPage.cekKontak();
-    await dashboardPage.cekKontenKontak();
+  test.afterEach(async ({ page }) => {
+    await page.reload();
   });
 
-  test("submit pembeli form", async ({ page }) => {
+  test.afterAll(async ({}) => {
+    const logoutPage = new PlaywrightLogoutPage(page);
+    await logoutPage.logout();
+    await context.close();
+  });
+
+  test("submit pembeli form", async ({ sidebarPage, pembeliPage }) => {
     await sidebarPage.cekPembeli();
     await pembeliPage.inputpembeli("Adilla Ibrahim");
     await pembeliPage.submitFormPembeli();
     await pembeliPage.MemastikanPembeliMasuk();
   });
 
-  test("submit transaksi cash form", async ({ page }) => {
+  test("submit transaksi cash form", async ({ sidebarPage, belicashPage }) => {
     await sidebarPage.cekBeliCash();
     await belicashPage.inputbelicash(
       "NMAX",
@@ -109,10 +135,13 @@ test.describe("motomarker", () => {
     await belicashPage.MemastikanBeliCashMasuk();
   });
 
-  test("submit transaksi kredit form", async ({ page }) => {
+  test("submit transaksi kredit form", async ({
+    sidebarPage,
+    belikreditPage,
+  }) => {
     await sidebarPage.cekBeliKredit();
     await belikreditPage.inputbelikredit(
-      "Jelita Zalindra",
+      "Adilla Ibrahim",
       "Beat",
       "2025-01-01",
       "P002",
@@ -124,45 +153,51 @@ test.describe("motomarker", () => {
     await belikreditPage.MemastikanBeliKreditMasuk();
   });
 
-  test("submit pembayaran cicilan form", async ({ page }) => {
+  test("submit pembayaran cicilan form", async ({
+    sidebarPage,
+    bayarcicilanPage,
+  }) => {
     await sidebarPage.cekBayarCicilan();
-    await bayarcicilanPage.inputbayarcicilan("1", "2025-01-01");
+    await bayarcicilanPage.inputbayarcicilan("4", "2025-01-01");
     await bayarcicilanPage.submitFormBayarCicilan();
     await bayarcicilanPage.MemastikanBayarCicilanMasuk();
   });
 
-  test("edit pembeli form", async ({ page }) => {
+  test("edit pembeli form", async ({ editpembeliPage, lihatpembeliPage }) => {
     await editpembeliPage.editPembeli("Adilla Ibrahim");
     await editpembeliPage.submitFormEditPembeli();
     await editpembeliPage.MemastikanEditPembeliMasuk();
     await lihatpembeliPage.goToLihatPembeli();
   });
 
-  test("edit beli cash form", async ({ page }) => {
+  test("edit beli cash form", async ({ editbelicashPage }) => {
     await editbelicashPage.editbelicash("Beat", "Adilla Ibrahim");
     await editbelicashPage.submitFormEditBeliCash();
     await editbelicashPage.MemastikanEditBeliCashMasuk();
   });
 
-  test("edit beli kredit form", async ({ page }) => {
+  test("edit beli kredit form", async ({
+    editbelikreditPage,
+    lihatbelikreditPage,
+  }) => {
     await editbelikreditPage.editbelikredit("P002", "Tidak");
     await editbelikreditPage.submitFormEditBeliKredit();
     await editbelikreditPage.MemastikanEditBeliKreditMasuk();
     await lihatbelikreditPage.goToLihatBeliKredit();
   });
 
-  test("hapus pembeli", async () => {
+  test("hapus pembeli", async ({ sidebarPage, hapuspembeliPage }) => {
     await sidebarPage.cekPembeli();
     await hapuspembeliPage.hapusPembeli();
   });
 
-  test("hapus beli cash", async () => {
+  test("hapus beli cash", async ({ sidebarPage, hapusbelicashPage }) => {
     await sidebarPage.cekBeliCash();
-    await hapusBeliCashPage.hapusBeliCash();
+    await hapusbelicashPage.hapusBeliCash();
   });
 
-  test("hapus beli kredit", async () => {
+  test("hapus beli kredit", async ({ sidebarPage, hapusbelikreditPage }) => {
     await sidebarPage.cekBeliKredit();
-    await hapusBeliKreditPage.hapusBeliKredit();
+    await hapusbelikreditPage.hapusBeliKredit();
   });
 });

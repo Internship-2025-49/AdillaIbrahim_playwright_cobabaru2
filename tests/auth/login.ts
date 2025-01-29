@@ -6,9 +6,6 @@ export class PlaywrightLoginPage {
   readonly passwordInput: Locator;
   readonly loginButton: Locator;
   readonly sudahTerdaftar: Locator;
-  readonly passwordIcon: Locator;
-  readonly signUpLink: Locator;
-  readonly errorMessage: Locator;
   readonly cekHeader: Locator;
 
   constructor(page: Page) {
