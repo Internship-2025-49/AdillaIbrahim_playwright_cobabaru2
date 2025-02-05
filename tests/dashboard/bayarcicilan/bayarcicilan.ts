@@ -19,7 +19,7 @@ export class PlaywrightBayarCicilanPage {
       hasText: "Tambah Pembayaran Cicilan",
     });
     this.kodeCicilan = page.locator("input#cicilan_kode");
-    this.kodeKredit = page.locator("select#kridit_kode");
+    this.kodeKredit = page.locator("select#kridit_kode").first();
     this.tanggalInput = page.locator("input#cicilan_tanggal");
     this.jumlahBayarInput = page.locator("input#cicilan_jumlah");
     this.cicilanke = page.locator("input#cicilan_ke");

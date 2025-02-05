@@ -3,6 +3,7 @@ import { expect, type Locator, type Page } from "@playwright/test";
 export class PlaywrightDashboardPage {
   readonly page: Page;
   readonly cekHeader: Locator;
+  readonly cekDashboardPenjualan: Locator;
   readonly cekMotor: Locator;
   readonly cekPembeli: Locator;
   readonly cekBeliCash: Locator;
@@ -14,6 +15,9 @@ export class PlaywrightDashboardPage {
   constructor(page: Page) {
     this.page = page;
     this.cekHeader = page.locator("h1", { hasText: "Dashboard" });
+    this.cekDashboardPenjualan = page.locator("h1", {
+      hasText: "Dashboard Penjualan",
+    });
     this.cekMotor = page.locator("h1", { hasText: "Daftar Motor" });
     this.cekPembeli = page.locator("h1", { hasText: " Daftar Pembeli" });
     this.cekBeliCash = page.locator("h1", {
@@ -33,6 +37,10 @@ export class PlaywrightDashboardPage {
 
   async cekTitle() {
     await expect(this.cekHeader).toBeVisible();
+  }
+
+  async cekkontenPenjualan() {
+    await expect(this.cekDashboardPenjualan).toBeVisible();
   }
 
   async cekKontenMotor() {

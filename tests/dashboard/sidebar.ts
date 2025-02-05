@@ -3,6 +3,7 @@ import { exec } from "child_process";
 
 export class PlaywrightSidebarPage {
   readonly page: Page;
+  readonly goToPenjualan: Locator;
   readonly goToMotor: Locator;
   readonly goToPembeli: Locator;
   readonly goToBeliCash: Locator;
@@ -13,6 +14,7 @@ export class PlaywrightSidebarPage {
 
   constructor(page: Page) {
     this.page = page;
+    this.goToPenjualan = page.locator("a", { hasText: "Dashboard Penjualan" });
     this.goToMotor = page.locator("a", { hasText: "Motor" });
     this.goToPembeli = page.locator("a", { hasText: "Pembeli" });
     this.goToBeliCash = page.locator("a", {
@@ -22,6 +24,11 @@ export class PlaywrightSidebarPage {
     this.goToBeliKredit = page.locator("a", { hasText: "Beli Kredit" });
     this.goToBayarCicilan = page.locator("a", { hasText: "Bayar Cicilan" });
     this.goToKontak = page.locator("a", { hasText: "Kontak" });
+  }
+
+  async cekPenjualan() {
+    await expect(this.goToPenjualan).toBeVisible();
+    await this.goToPenjualan.click();
   }
 
   async cekMotor() {
