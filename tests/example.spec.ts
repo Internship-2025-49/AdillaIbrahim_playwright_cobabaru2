@@ -53,6 +53,9 @@ const test = base.extend({
   editMotorPage: async ({}, use) => {
     await use(new PlaywrightMotorPage(page));
   },
+  hapusmotorPage: async ({}, use) => {
+    await use(new PlaywrightMotorPage(page));
+  },
   pembeliPage: async ({}, use) => {
     await use(new PlaywrightPembeliPage(page));
   },
@@ -97,6 +100,7 @@ const test = base.extend({
   },
 });
 
+//USER
 test.describe("User", () => {
   test.beforeAll(async ({ browser }) => {
     context = await browser.newContext();
@@ -124,6 +128,7 @@ test.describe("User", () => {
     await context.close();
   });
 
+  //SUBMIT
   test("submit pembeli form", async ({ sidebarPage, pembeliPage }) => {
     await sidebarPage.cekPembeli();
     await pembeliPage.inputpembeli("Adilla Ibrahim");
@@ -171,6 +176,7 @@ test.describe("User", () => {
     await bayarcicilanPage.MemastikanBayarCicilanMasuk();
   });
 
+  //EDIT
   test("edit pembeli form", async ({ editpembeliPage, lihatpembeliPage }) => {
     await editpembeliPage.editPembeli("Adilla Ibrahim");
     await editpembeliPage.submitFormEditPembeli();
@@ -194,6 +200,7 @@ test.describe("User", () => {
     await lihatbelikreditPage.goToLihatBeliKredit();
   });
 
+  //HAPUS
   test("hapus pembeli", async ({ sidebarPage, hapuspembeliPage }) => {
     await sidebarPage.cekPembeli();
     await hapuspembeliPage.hapusPembeli();
@@ -215,6 +222,7 @@ test.describe("User", () => {
   });
 });
 
+//ADMIN
 test.describe("Admin", () => {
   test.beforeAll(async ({ browser }) => {
     context = await browser.newContext();
@@ -247,6 +255,7 @@ test.describe("Admin", () => {
     await penjualanPage.toPenjualanPage();
   });
 
+  //SUBMIT
   test("submit motor form", async ({ sidebarPage, motorPage }) => {
     await sidebarPage.cekMotor();
     await motorPage.inputMotor(
@@ -306,6 +315,7 @@ test.describe("Admin", () => {
     await bayarcicilanPage.MemastikanBayarCicilanMasuk();
   });
 
+  //EDIT
   test("edit motor form", async ({ editMotorPage, sidebarPage }) => {
     await sidebarPage.cekMotor();
     await editMotorPage.editMotor("Suzuki", "Suzuki GSX-S150");
@@ -334,6 +344,12 @@ test.describe("Admin", () => {
     await editbelikreditPage.submitFormEditBeliKredit();
     await editbelikreditPage.MemastikanEditBeliKreditMasuk();
     await lihatbelikreditPage.goToLihatBeliKredit();
+  });
+
+  //HAPUS
+  test("hapus motor", async ({ sidebarPage, hapusmotorPage }) => {
+    await sidebarPage.cekMotor();
+    await hapusmotorPage.hapusMotor();
   });
 
   test("hapus pembeli", async ({ sidebarPage, hapuspembeliPage }) => {

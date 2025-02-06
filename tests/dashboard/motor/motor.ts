@@ -17,6 +17,8 @@ export class PlaywrightMotorPage {
   readonly editMotorButton: Locator;
   readonly motorMerkEdit: Locator;
   readonly motorTypeEdit: Locator;
+  readonly HapusMotorButton: Locator;
+  readonly KonfirmasiHapusMotorButton: Locator;
   readonly simpanButton: Locator;
 
   constructor(page: Page) {
@@ -33,6 +35,16 @@ export class PlaywrightMotorPage {
     this.editMotorButton = page.getByRole("row").locator("#editmotor").first();
     this.motorMerkEdit = page.locator("input#motor_merk");
     this.motorTypeEdit = page.locator("input#motor_type");
+
+    this.HapusMotorButton = page
+      .locator("button", {
+        hasText: "Hapus",
+      })
+      .first();
+    this.KonfirmasiHapusMotorButton = page.getByRole("button", {
+      name: "Ya, Hapus!",
+    });
+
     this.simpanButton = page.locator("button", { hasText: "Simpan" });
   }
 
@@ -42,6 +54,7 @@ export class PlaywrightMotorPage {
     fs.writeFileSync(filePath, buffer);
   }
 
+  //INPUT MOTOR
   async inputMotor(
     motor_merk: string,
     motor_type: string,
@@ -97,5 +110,11 @@ export class PlaywrightMotorPage {
     await expect(
       this.page.locator("h1", { hasText: "Daftar Motor" })
     ).toBeVisible();
+  }
+  //HAPUS MOTOR
+  async hapusMotor() {
+    await this.HapusMotorButton.click();
+    await this.KonfirmasiHapusMotorButton.click();
+    await expect(this.daftarMotor).toBeVisible();
   }
 }
