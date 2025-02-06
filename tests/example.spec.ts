@@ -50,6 +50,9 @@ const test = base.extend({
   motorPage: async ({}, use) => {
     await use(new PlaywrightMotorPage(page));
   },
+  editMotorPage: async ({}, use) => {
+    await use(new PlaywrightMotorPage(page));
+  },
   pembeliPage: async ({}, use) => {
     await use(new PlaywrightPembeliPage(page));
   },
@@ -301,6 +304,13 @@ test.describe("Admin", () => {
     await bayarcicilanPage.inputbayarcicilan("4", "2025-01-01");
     await bayarcicilanPage.submitFormBayarCicilan();
     await bayarcicilanPage.MemastikanBayarCicilanMasuk();
+  });
+
+  test("edit motor form", async ({ editMotorPage, sidebarPage }) => {
+    await sidebarPage.cekMotor();
+    await editMotorPage.editMotor("Suzuki", "Suzuki GSX-S150");
+    await editMotorPage.submitEditMotor();
+    await editMotorPage.MemastikanEditMotorMasuk();
   });
 
   test("edit pembeli form", async ({ editpembeliPage, lihatpembeliPage }) => {

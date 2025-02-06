@@ -7,7 +7,6 @@ import fetch from "node-fetch";
 export class PlaywrightMotorPage {
   readonly page: Page;
   readonly daftarMotor: Locator;
-  readonly editButton: Locator;
   readonly tambahMotor: Locator;
   readonly motorKodeInput: Locator;
   readonly motorMerkInput: Locator;
@@ -15,12 +14,14 @@ export class PlaywrightMotorPage {
   readonly motorWarnaInput: Locator;
   readonly motorHargaInput: Locator;
   readonly motorGambar: Locator;
+  readonly editMotorButton: Locator;
+  readonly motorMerkEdit: Locator;
+  readonly motorTypeEdit: Locator;
   readonly simpanButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.daftarMotor = page.locator("h1", { hasText: "Daftar Motor" });
-    this.editButton = page.locator("button", { hasText: "Edit" });
     this.tambahMotor = page.locator("a", { hasText: "Tambah Motor" });
     this.motorKodeInput = page.locator("input#motor_kode");
     this.motorMerkInput = page.locator("input#motor_merk");
@@ -28,6 +29,10 @@ export class PlaywrightMotorPage {
     this.motorWarnaInput = page.locator("input#motor_warna_pilihan");
     this.motorHargaInput = page.locator("input#motor_harga");
     this.motorGambar = page.locator("input#motor_gambar");
+
+    this.editMotorButton = page.getByRole("row").locator("#editmotor").first();
+    this.motorMerkEdit = page.locator("input#motor_merk");
+    this.motorTypeEdit = page.locator("input#motor_type");
     this.simpanButton = page.locator("button", { hasText: "Simpan" });
   }
 
@@ -70,6 +75,25 @@ export class PlaywrightMotorPage {
   }
 
   async MemastikanMotorMasuk() {
+    await expect(
+      this.page.locator("h1", { hasText: "Daftar Motor" })
+    ).toBeVisible();
+  }
+
+  async editMotor(motor_merk: string, motor_type: string) {
+    await this.editMotorButton.click();
+
+    await this.page.locator("input#motor_merk").waitFor({ state: "visible" });
+    await this.motorMerkInput.fill(motor_merk);
+    await this.page.locator("input#motor_type").waitFor({ state: "visible" });
+    await this.motorTypeInput.fill(motor_type);
+  }
+
+  async submitEditMotor() {
+    await this.simpanButton.click();
+  }
+
+  async MemastikanEditMotorMasuk() {
     await expect(
       this.page.locator("h1", { hasText: "Daftar Motor" })
     ).toBeVisible();
