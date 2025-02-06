@@ -109,6 +109,12 @@ const test = base.extend({
   bayarcicilanPage: async ({}, use) => {
     await use(new PlaywrightBayarCicilanPage(page));
   },
+  editbayarcicilanPage: async ({}, use) => {
+    await use(new PlaywrightBayarCicilanPage(page));
+  },
+  hapusbayarcicilanPage: async ({}, use) => {
+    await use(new PlaywrightBayarCicilanPage(page));
+  },
   //KONTAK
   KontakPage: async ({}, use) => {
     await use(new PlaywrightKontakPage(page));
@@ -387,6 +393,16 @@ test.describe("Admin", () => {
     await lihatbelikreditPage.goToLihatBeliKredit();
   });
 
+  test("edit bayar cicilan form", async ({
+    editbayarcicilanPage,
+    sidebarPage,
+  }) => {
+    await sidebarPage.cekBayarCicilan();
+    await editbayarcicilanPage.editBayarCicilan("10000000", "3");
+    await editbayarcicilanPage.submitEditBayarCicilan();
+    await editbayarcicilanPage.MemastikanEditBayarCicilanMasuk();
+  });
+
   //HAPUS
   test("hapus motor", async ({ sidebarPage, hapusmotorPage }) => {
     await sidebarPage.cekMotor();
@@ -411,6 +427,14 @@ test.describe("Admin", () => {
   test("hapus beli kredit", async ({ sidebarPage, hapusbelikreditPage }) => {
     await sidebarPage.cekBeliKredit();
     await hapusbelikreditPage.hapusBeliKredit();
+  });
+
+  test("hapus bayar cicilan", async ({
+    sidebarPage,
+    hapusbayarcicilanPage,
+  }) => {
+    await sidebarPage.cekBayarCicilan();
+    await hapusbayarcicilanPage.hapusBayarCicilan();
   });
 
   test("kontak", async ({ sidebarPage, KontakPage }) => {
