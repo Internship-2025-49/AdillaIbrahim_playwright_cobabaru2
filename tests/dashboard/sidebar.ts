@@ -10,6 +10,8 @@ export class PlaywrightSidebarPage {
   readonly goToKreditPaket: Locator;
   readonly goToBeliKredit: Locator;
   readonly goToBayarCicilan: Locator;
+  readonly goToRole: Locator;
+  readonly goToUser: Locator;
   readonly goToKontak: Locator;
 
   constructor(page: Page) {
@@ -23,6 +25,8 @@ export class PlaywrightSidebarPage {
     this.goToKreditPaket = page.locator("a", { hasText: "Kredit Paket" });
     this.goToBeliKredit = page.locator("a", { hasText: "Beli Kredit" });
     this.goToBayarCicilan = page.locator("a", { hasText: "Bayar Cicilan" });
+    this.goToRole = page.locator("a", { hasText: "Roles" });
+    this.goToUser = page.locator("a", { hasText: "User" });
     this.goToKontak = page.locator("a", { hasText: "Kontak" });
   }
 
@@ -59,6 +63,16 @@ export class PlaywrightSidebarPage {
   async cekBayarCicilan() {
     await expect(this.goToBayarCicilan).toBeVisible();
     await this.goToBayarCicilan.click();
+  }
+
+  async cekRoles() {
+    await expect(this.goToRole).toBeVisible();
+    await this.goToRole.click();
+  }
+
+  async cekUser() {
+    await expect(this.goToUser).toBeVisible();
+    await this.goToUser.click();
   }
 
   async cekKontak() {

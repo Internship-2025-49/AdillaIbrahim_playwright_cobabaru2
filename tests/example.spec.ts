@@ -25,6 +25,8 @@ import { PlaywrightHapusBeliKreditPage } from "./dashboard/belikredit/hapusbelik
 
 import { PlaywrightBayarCicilanPage } from "./dashboard/bayarcicilan/bayarcicilan";
 
+import { PlaywrightRolePage } from "./dashboard/role/role";
+
 import { PlaywrightKontakPage } from "./dashboard/kontak/kontak";
 
 import { PlaywrightLogoutPage } from "./auth/logout";
@@ -114,6 +116,16 @@ const test = base.extend({
   },
   hapusbayarcicilanPage: async ({}, use) => {
     await use(new PlaywrightBayarCicilanPage(page));
+  },
+  //ROLE
+  rolePage: async ({}, use) => {
+    await use(new PlaywrightRolePage(page));
+  },
+  editrolePage: async ({}, use) => {
+    await use(new PlaywrightRolePage(page));
+  },
+  hapusrolePage: async ({}, use) => {
+    await use(new PlaywrightRolePage(page));
   },
   //KONTAK
   KontakPage: async ({}, use) => {
@@ -352,6 +364,13 @@ test.describe("Admin", () => {
     await bayarcicilanPage.MemastikanBayarCicilanMasuk();
   });
 
+  test("submit role form", async ({ sidebarPage, rolePage }) => {
+    await sidebarPage.cekRoles();
+    await rolePage.inputRoles("hai");
+    await rolePage.submitFormRoles();
+    await rolePage.MemastikanRolesMasuk();
+  });
+
   //EDIT
   test("edit motor form", async ({ editMotorPage, sidebarPage }) => {
     await sidebarPage.cekMotor();
@@ -403,6 +422,13 @@ test.describe("Admin", () => {
     await editbayarcicilanPage.MemastikanEditBayarCicilanMasuk();
   });
 
+  test("edit roles form", async ({ editrolePage, sidebarPage }) => {
+    await sidebarPage.cekRoles();
+    await editrolePage.editRoles("hallo");
+    await editrolePage.submitEditRoles();
+    await editrolePage.MemastikanEditRolesMasuk();
+  });
+
   //HAPUS
   test("hapus motor", async ({ sidebarPage, hapusmotorPage }) => {
     await sidebarPage.cekMotor();
@@ -435,6 +461,11 @@ test.describe("Admin", () => {
   }) => {
     await sidebarPage.cekBayarCicilan();
     await hapusbayarcicilanPage.hapusBayarCicilan();
+  });
+
+  test("hapus role", async ({ sidebarPage, hapusrolePage }) => {
+    await sidebarPage.cekRoles();
+    await hapusrolePage.hapusRoles();
   });
 
   test("kontak", async ({ sidebarPage, KontakPage }) => {

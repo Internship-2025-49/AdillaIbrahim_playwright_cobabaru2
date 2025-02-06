@@ -10,6 +10,8 @@ export class PlaywrightDashboardPage {
   readonly cekKreditPaket: Locator;
   readonly cekBeliKredit: Locator;
   readonly cekBayarCicilan: Locator;
+  readonly cekRoles: Locator;
+  readonly cekUser: Locator;
   readonly cekKontak: Locator;
 
   constructor(page: Page) {
@@ -32,6 +34,8 @@ export class PlaywrightDashboardPage {
     this.cekBayarCicilan = page.locator("h1", {
       hasText: "Daftar Pembayaran Cicilan",
     });
+    this.cekRoles = page.locator("h1", { hasText: "Daftar Role" });
+    this.cekUser = page.locator("h1", { hasText: " Daftar Pengguna" });
     this.cekKontak = page.locator("h1", { hasText: "Kontak Help & Info" });
   }
 
@@ -65,6 +69,14 @@ export class PlaywrightDashboardPage {
 
   async cekKontenBayarCicilan() {
     await expect(this.cekBayarCicilan).toBeVisible();
+  }
+
+  async cekKontenRoles() {
+    await expect(this.cekRoles).toBeVisible();
+  }
+
+  async cekKontenUser() {
+    await expect(this.cekUser).toBeVisible();
   }
 
   async cekKontenKontak() {
