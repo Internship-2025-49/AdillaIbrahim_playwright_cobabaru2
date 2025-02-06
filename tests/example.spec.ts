@@ -16,6 +16,8 @@ import { PlaywrightBeliCashPage } from "./dashboard/belicash/belicash";
 import { PlaywrightBeliCashEditPage } from "./dashboard/belicash/editbelicash";
 import { PlaywrightHapusBeliCashPage } from "./dashboard/belicash/hapusbelicash";
 
+import { PlaywrightKreditPaketPage } from "./dashboard/kreditpaket/kreditpaket";
+
 import { PlaywrightBeliKreditPage } from "./dashboard/belikredit/belikredit";
 import { PlaywrightBeliKreditEditPage } from "./dashboard/belikredit/editbelikredit";
 import { PlaywrightLihatBeliKreditPage } from "./dashboard/belikredit/lihatbelikredit";
@@ -47,6 +49,7 @@ const test = base.extend({
   penjualanPage: async ({}, use) => {
     await use(new PlaywrightPenjualanPage(page));
   },
+  //MOTOR
   motorPage: async ({}, use) => {
     await use(new PlaywrightMotorPage(page));
   },
@@ -56,6 +59,7 @@ const test = base.extend({
   hapusmotorPage: async ({}, use) => {
     await use(new PlaywrightMotorPage(page));
   },
+  //PEMBELI
   pembeliPage: async ({}, use) => {
     await use(new PlaywrightPembeliPage(page));
   },
@@ -68,6 +72,7 @@ const test = base.extend({
   hapuspembeliPage: async ({}, use) => {
     await use(new PlaywrightHapusPembeliPage(page));
   },
+  //BELI CASH
   belicashPage: async ({}, use) => {
     await use(new PlaywrightBeliCashPage(page));
   },
@@ -77,6 +82,17 @@ const test = base.extend({
   hapusbelicashPage: async ({}, use) => {
     await use(new PlaywrightHapusBeliCashPage(page));
   },
+  //KREDIT PAKET
+  kreditpaketPage: async ({}, use) => {
+    await use(new PlaywrightKreditPaketPage(page));
+  },
+  editkreditpaketPage: async ({}, use) => {
+    await use(new PlaywrightKreditPaketPage(page));
+  },
+  hapuskreditpaketPage: async ({}, use) => {
+    await use(new PlaywrightKreditPaketPage(page));
+  },
+  //BELI KREDIT
   belikreditPage: async ({}, use) => {
     await use(new PlaywrightBeliKreditPage(page));
   },
@@ -89,9 +105,11 @@ const test = base.extend({
   hapusbelikreditPage: async ({}, use) => {
     await use(new PlaywrightHapusBeliKreditPage(page));
   },
+  //BAYAR CICILAN
   bayarcicilanPage: async ({}, use) => {
     await use(new PlaywrightBayarCicilanPage(page));
   },
+  //KONTAK
   KontakPage: async ({}, use) => {
     await use(new PlaywrightKontakPage(page));
   },
@@ -287,6 +305,19 @@ test.describe("Admin", () => {
     await belicashPage.MemastikanBeliCashMasuk();
   });
 
+  test("submit kredit paket form", async ({ sidebarPage, kreditpaketPage }) => {
+    await sidebarPage.cekKreditPaket();
+    await kreditpaketPage.inputKreditPaket(
+      "25000000",
+      "2000000",
+      "36",
+      "3",
+      "1800000"
+    );
+    await kreditpaketPage.submitFormKreditPaket();
+    await kreditpaketPage.MemastikanKreditPaketMasuk();
+  });
+
   test("submit transaksi kredit form", async ({
     sidebarPage,
     belikreditPage,
@@ -336,6 +367,16 @@ test.describe("Admin", () => {
     await editbelicashPage.MemastikanEditBeliCashMasuk();
   });
 
+  test("edit kredit paket form", async ({
+    editkreditpaketPage,
+    sidebarPage,
+  }) => {
+    await sidebarPage.cekKreditPaket();
+    await editkreditpaketPage.editKreditPaket("20000000", "15000000");
+    await editkreditpaketPage.submitFormKreditPaket();
+    await editkreditpaketPage.MemastikanKreditPaketMasuk();
+  });
+
   test("edit beli kredit form", async ({
     editbelikreditPage,
     lihatbelikreditPage,
@@ -360,6 +401,11 @@ test.describe("Admin", () => {
   test("hapus beli cash", async ({ sidebarPage, hapusbelicashPage }) => {
     await sidebarPage.cekBeliCash();
     await hapusbelicashPage.hapusBeliCash();
+  });
+
+  test("hapus kredit paket", async ({ sidebarPage, hapuskreditpaketPage }) => {
+    await sidebarPage.cekKreditPaket();
+    await hapuskreditpaketPage.hapusKreditPaket();
   });
 
   test("hapus beli kredit", async ({ sidebarPage, hapusbelikreditPage }) => {
