@@ -347,7 +347,7 @@ test.describe("Admin", () => {
     bayarcicilanPage,
   }) => {
     await sidebarPage.cekBayarCicilan();
-    await bayarcicilanPage.inputbayarcicilan("4", "2025-01-01");
+    await bayarcicilanPage.inputbayarcicilan("8", "2025-01-01");
     await bayarcicilanPage.submitFormBayarCicilan();
     await bayarcicilanPage.MemastikanBayarCicilanMasuk();
   });
