@@ -5,6 +5,8 @@ import { PlaywrightDashboardPage } from "./dashboard/dashboard";
 import { PlaywrightSidebarPage } from "./dashboard/sidebar";
 import { PlaywrightPenjualanPage } from "./dashboard/dashboardpenjualan/penjualan";
 
+import { PlaywrightMotorPage } from "./dashboard/motor/motor";
+
 import { PlaywrightPembeliPage } from "./dashboard/pembeli/pembeli";
 import { PlaywrightPembeliEditPage } from "./dashboard/pembeli/editpembeli";
 import { PlaywrightLihatPembeliPage } from "./dashboard/pembeli/lihatpembeli";
@@ -44,6 +46,9 @@ const test = base.extend({
   },
   penjualanPage: async ({}, use) => {
     await use(new PlaywrightPenjualanPage(page));
+  },
+  motorPage: async ({}, use) => {
+    await use(new PlaywrightMotorPage(page));
   },
   pembeliPage: async ({}, use) => {
     await use(new PlaywrightPembeliPage(page));
@@ -237,6 +242,18 @@ test.describe("Admin", () => {
   test("dashboard penjualan", async ({ sidebarPage, penjualanPage }) => {
     await sidebarPage.cekPenjualan();
     await penjualanPage.toPenjualanPage();
+  });
+
+  test("submit motor form", async ({ sidebarPage, motorPage }) => {
+    await sidebarPage.cekMotor();
+    await motorPage.inputMotor(
+      "Kawasaki",
+      "Kawasaki KLX 150",
+      "merah",
+      "25000000"
+    );
+    await motorPage.submitFormMotor();
+    await motorPage.MemastikanMotorMasuk();
   });
 
   test("submit pembeli form", async ({ sidebarPage, pembeliPage }) => {
