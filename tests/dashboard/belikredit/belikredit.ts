@@ -3,6 +3,9 @@ import { faker } from "@faker-js/faker/locale/id_ID";
 
 export class PlaywrightBeliKreditPage {
   readonly page: Page;
+  readonly goToBeliKredit: Locator;
+  readonly daftarTransaksiKredit: Locator;
+
   readonly tambahTransaksiKredit: Locator;
   readonly kodeTransaksiInput: Locator;
   readonly pembeliDropdown: Locator;
@@ -12,10 +15,25 @@ export class PlaywrightBeliKreditPage {
   readonly fotoKTPDropdown: Locator;
   readonly fotoKKDropdown: Locator;
   readonly fotoGajiDropdown: Locator;
+
+  readonly editBeliKreditPaket: Locator;
+  readonly editpaketKreditDropdown: Locator;
+  readonly editfotoKTPDropdown: Locator;
+
+  readonly lihatButton: Locator;
+  readonly kembaliButton: Locator;
+
+  readonly HapusBeliKreditButton: Locator;
+  readonly KonfirmasiHapusButton: Locator;
+
   readonly simpanButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
+    this.goToBeliKredit = page.locator("a", { hasText: "Beli Kredit" });
+    this.daftarTransaksiKredit = page.locator("h1", {
+      hasText: "Daftar Transaksi Kredit",
+    });
     this.tambahTransaksiKredit = page.locator("a", {
       hasText: "Tambah Transaksi Kredit",
     });
@@ -27,9 +45,32 @@ export class PlaywrightBeliKreditPage {
     this.fotoKTPDropdown = page.locator("select#fotokopi_KTP");
     this.fotoKKDropdown = page.locator("select#fotokopi_KK");
     this.fotoGajiDropdown = page.locator("select#fotokopi_slip_gaji");
+
+    this.editBeliKreditPaket = page
+      .getByRole("row")
+      .locator("#editbelikredit")
+      .first();
+    this.editpaketKreditDropdown = page.locator("select#paket_kode");
+    this.editfotoKTPDropdown = page.locator("select#fotokopi_KTP");
     this.simpanButton = page.locator("button", { hasText: "Simpan" });
+
+    this.daftarTransaksiKredit = page.locator("h1", {
+      hasText: "Daftar Transaksi Kredit",
+    });
+    this.lihatButton = page.locator("a", { hasText: "Lihat" });
+    this.kembaliButton = page.locator("button", { hasText: "Kembali" });
+
+    this.HapusBeliKreditButton = page
+      .locator("button", {
+        hasText: "Hapus",
+      })
+      .last();
+    this.KonfirmasiHapusButton = page.getByRole("button", {
+      name: "Ya, Hapus!",
+    });
   }
 
+  //INPUT BELI KREDIT
   async inputbelikredit(
     pembeli_No_KTP: string,
     motor_kode: string,
@@ -83,5 +124,48 @@ export class PlaywrightBeliKreditPage {
     await expect(
       this.page.locator("h1", { hasText: "Daftar Transaksi Kredit" })
     ).toBeVisible();
+  }
+
+  //EDIT BELI KREDIT
+  async editbelikredit(paket_kode: string, fotokopi_KTP: string) {
+    await this.goToBeliKredit.click();
+    await expect(
+      this.page.locator("h1", { hasText: "Daftar Transaksi Kredit" })
+    ).toBeVisible();
+    await this.editBeliKreditPaket.click();
+
+    await this.page.locator("select#paket_kode").waitFor({ state: "visible" });
+    await this.paketKreditDropdown.selectOption({ label: paket_kode });
+    await this.page
+      .locator("select#fotokopi_KTP")
+      .waitFor({ state: "visible" });
+    await this.fotoKTPDropdown.selectOption({ label: fotokopi_KTP });
+  }
+
+  async submitFormEditBeliKredit() {
+    await this.simpanButton.click();
+  }
+
+  async MemastikanEditBeliKreditMasuk() {
+    await expect(
+      this.page.locator("h1", { hasText: "Daftar Transaksi Kredit" })
+    ).toBeVisible();
+  }
+
+  //LIHAT BELI KREDIT
+  async goToLihatBeliKredit() {
+    await this.lihatButton.first().click();
+    await expect(
+      this.page.locator("h1", { hasText: "Lihat Beli Kredit" })
+    ).toBeVisible();
+    await this.kembaliButton.click();
+    await expect(this.daftarTransaksiKredit).toBeVisible();
+  }
+
+  //HAPUS BELI KREDIT
+  async hapusBeliKredit() {
+    await this.HapusBeliKreditButton.click();
+    await this.KonfirmasiHapusButton.click();
+    await expect(this.daftarTransaksiKredit).toBeVisible();
   }
 }

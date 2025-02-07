@@ -10,15 +10,10 @@ import { PlaywrightMotorPage } from "./dashboard/motor/motor";
 import { PlaywrightPembeliPage } from "./dashboard/pembeli/pembeli";
 
 import { PlaywrightBeliCashPage } from "./dashboard/belicash/belicash";
-// // import { PlaywrightBeliCashEditPage } from "./dashboard/belicash/editbelicash";
-// import { PlaywrightHapusBeliCashPage } from "./dashboard/belicash/hapusbelicash";
 
 import { PlaywrightKreditPaketPage } from "./dashboard/kreditpaket/kreditpaket";
 
 import { PlaywrightBeliKreditPage } from "./dashboard/belikredit/belikredit";
-import { PlaywrightBeliKreditEditPage } from "./dashboard/belikredit/editbelikredit";
-import { PlaywrightLihatBeliKreditPage } from "./dashboard/belikredit/lihatbelikredit";
-import { PlaywrightHapusBeliKreditPage } from "./dashboard/belikredit/hapusbelikredit";
 
 import { PlaywrightBayarCicilanPage } from "./dashboard/bayarcicilan/bayarcicilan";
 
@@ -98,13 +93,13 @@ const test = base.extend({
     await use(new PlaywrightBeliKreditPage(page));
   },
   editbelikreditPage: async ({}, use) => {
-    await use(new PlaywrightBeliKreditEditPage(page));
+    await use(new PlaywrightBeliKreditPage(page));
   },
   lihatbelikreditPage: async ({}, use) => {
-    await use(new PlaywrightLihatBeliKreditPage(page));
+    await use(new PlaywrightBeliKreditPage(page));
   },
   hapusbelikreditPage: async ({}, use) => {
-    await use(new PlaywrightHapusBeliKreditPage(page));
+    await use(new PlaywrightBeliKreditPage(page));
   },
   //BAYAR CICILAN
   bayarcicilanPage: async ({}, use) => {
