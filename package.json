@@ -11,5 +11,9 @@
     "@faker-js/faker": "^9.4.0",
     "@playwright/test": "^1.49.1",
     "@types/node": "^22.10.6"
+  },
+  "dependencies": {
+    "node": "^23.7.0",
+    "node-fetch": "^2.6.1"
   }
 }
