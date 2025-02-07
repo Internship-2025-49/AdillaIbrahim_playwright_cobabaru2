@@ -27,6 +27,8 @@ import { PlaywrightBayarCicilanPage } from "./dashboard/bayarcicilan/bayarcicila
 
 import { PlaywrightRolePage } from "./dashboard/role/role";
 
+import { PlaywrightUserPage } from "./dashboard/user/user";
+
 import { PlaywrightKontakPage } from "./dashboard/kontak/kontak";
 
 import { PlaywrightLogoutPage } from "./auth/logout";
@@ -126,6 +128,16 @@ const test = base.extend({
   },
   hapusrolePage: async ({}, use) => {
     await use(new PlaywrightRolePage(page));
+  },
+  //USER
+  userPage: async ({}, use) => {
+    await use(new PlaywrightUserPage(page));
+  },
+  edituserPage: async ({}, use) => {
+    await use(new PlaywrightUserPage(page));
+  },
+  hapususerPage: async ({}, use) => {
+    await use(new PlaywrightUserPage(page));
   },
   //KONTAK
   KontakPage: async ({}, use) => {
@@ -371,6 +383,13 @@ test.describe("Admin", () => {
     await rolePage.MemastikanRolesMasuk();
   });
 
+  test("submit user form", async ({ sidebarPage, userPage }) => {
+    await sidebarPage.cekUser();
+    await userPage.inputUser();
+    await userPage.submitFormUser();
+    await userPage.MemastikanUserMasuk();
+  });
+
   //EDIT
   test("edit motor form", async ({ editMotorPage, sidebarPage }) => {
     await sidebarPage.cekMotor();
@@ -429,6 +448,13 @@ test.describe("Admin", () => {
     await editrolePage.MemastikanEditRolesMasuk();
   });
 
+  test("edit user form", async ({ edituserPage, sidebarPage }) => {
+    await sidebarPage.cekUser();
+    await edituserPage.editUser("hallo");
+    await edituserPage.submitEditUser();
+    await edituserPage.MemastikanEditUserMasuk();
+  });
+
   //HAPUS
   test("hapus motor", async ({ sidebarPage, hapusmotorPage }) => {
     await sidebarPage.cekMotor();
@@ -466,6 +492,11 @@ test.describe("Admin", () => {
   test("hapus role", async ({ sidebarPage, hapusrolePage }) => {
     await sidebarPage.cekRoles();
     await hapusrolePage.hapusRoles();
+  });
+
+  test("hapus user", async ({ sidebarPage, hapususerPage }) => {
+    await sidebarPage.cekUser();
+    await hapususerPage.hapusUser();
   });
 
   test("kontak", async ({ sidebarPage, KontakPage }) => {
