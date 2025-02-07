@@ -8,9 +8,6 @@ import { PlaywrightPenjualanPage } from "./dashboard/dashboardpenjualan/penjuala
 import { PlaywrightMotorPage } from "./dashboard/motor/motor";
 
 import { PlaywrightPembeliPage } from "./dashboard/pembeli/pembeli";
-import { PlaywrightPembeliEditPage } from "./dashboard/pembeli/editpembeli";
-import { PlaywrightLihatPembeliPage } from "./dashboard/pembeli/lihatpembeli";
-import { PlaywrightHapusPembeliPage } from "./dashboard/pembeli/hapuspembeli";
 
 import { PlaywrightBeliCashPage } from "./dashboard/belicash/belicash";
 import { PlaywrightBeliCashEditPage } from "./dashboard/belicash/editbelicash";
@@ -68,13 +65,13 @@ const test = base.extend({
     await use(new PlaywrightPembeliPage(page));
   },
   editpembeliPage: async ({}, use) => {
-    await use(new PlaywrightPembeliEditPage(page));
+    await use(new PlaywrightPembeliPage(page));
   },
   lihatpembeliPage: async ({}, use) => {
-    await use(new PlaywrightLihatPembeliPage(page));
+    await use(new PlaywrightPembeliPage(page));
   },
   hapuspembeliPage: async ({}, use) => {
-    await use(new PlaywrightHapusPembeliPage(page));
+    await use(new PlaywrightPembeliPage(page));
   },
   //BELI CASH
   belicashPage: async ({}, use) => {
