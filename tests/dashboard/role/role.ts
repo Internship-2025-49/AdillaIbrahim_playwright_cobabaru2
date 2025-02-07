@@ -73,7 +73,7 @@ export class PlaywrightRolePage {
     ).toBeVisible();
   }
 
-  //HAPUS KREDIT PAKET
+  //HAPUS ROLES
   async hapusRoles() {
     await this.hapusRolesButton.click();
     await this.konfirmasiHapusRoles.click();
