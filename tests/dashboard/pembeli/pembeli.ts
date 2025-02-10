@@ -1,5 +1,6 @@
 import { expect, type Locator, type Page } from "@playwright/test";
 import { faker } from "@faker-js/faker/locale/id_ID";
+import { FormPembeli } from "../type/type";
 
 export class PlaywrightPembeliPage {
   readonly page: Page;
@@ -53,26 +54,22 @@ export class PlaywrightPembeliPage {
   }
 
   //INPUT PEMBELI
-  async inputpembeli(pembeli_nama: string) {
-    const pembeli_No_KTP = faker.string.numeric(16);
-    const pembeli_alamat = faker.location.streetAddress();
-    const pembeli_telpon = faker.phone.number({ style: "human" });
-
+  async inputpembeli(InputPembeli: FormPembeli) {
     await this.tambahPembeli.first().click();
     await this.page
       .locator("input#pembeli_No_KTP")
       .waitFor({ state: "visible" });
-    await this.noKtpInput.fill(pembeli_No_KTP);
+    await this.noKtpInput.fill(InputPembeli.pembeli_No_KTP);
     await this.page.locator("input#pembeli_nama").waitFor({ state: "visible" });
-    await this.namaInput.fill(pembeli_nama);
+    await this.namaInput.fill(InputPembeli.pembeli_nama);
     await this.page
       .locator("input#pembeli_alamat")
       .waitFor({ state: "visible" });
-    await this.alamatInput.fill(pembeli_alamat);
+    await this.alamatInput.fill(InputPembeli.pembeli_alamat);
     await this.page
       .locator("input#pembeli_telpon")
       .waitFor({ state: "visible" });
-    await this.telponInput.fill(pembeli_telpon);
+    await this.telponInput.fill(InputPembeli.pembeli_telpon);
   }
 
   async submitFormPembeli() {
@@ -86,18 +83,26 @@ export class PlaywrightPembeliPage {
   }
 
   //EDIT PEMBELI
-  async editPembeli(pembeli_nama: string) {
-    const pembeli_alamat = faker.location.streetAddress();
-
-    await this.daftarPembeli.click();
+  async editPembeli(EditPembeli: FormPembeli) {
     await this.editPembeliButton.click();
 
+    // await this.page
+    //   .locator("input#pembeli_No_KTP")
+    //   .waitFor({ state: "visible" });
+    // await this.page
+    //   .locator("input#pembeli_No_KTP")
+    //   .evaluate((el) => el.removeAttribute("readonly"));
+    // await this.noKtpInput.fill(EditPembeli.pembeli_No_KTP);
     await this.page.locator("input#pembeli_nama").waitFor({ state: "visible" });
-    await this.namaInput.fill(pembeli_nama);
+    await this.namaInput.fill(EditPembeli.pembeli_nama);
     await this.page
       .locator("input#pembeli_alamat")
       .waitFor({ state: "visible" });
-    await this.alamatInput.fill(pembeli_alamat);
+    await this.alamatInput.fill(EditPembeli.pembeli_alamat);
+    await this.page
+      .locator("input#pembeli_telpon")
+      .waitFor({ state: "visible" });
+    await this.telponInput.fill(EditPembeli.pembeli_telpon);
   }
 
   async submitFormEditPembeli() {
