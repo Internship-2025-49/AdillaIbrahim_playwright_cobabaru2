@@ -1,5 +1,6 @@
 import { expect, type Locator, type Page } from "@playwright/test";
 import { faker } from "@faker-js/faker/locale/id_ID";
+import { FormMotor } from "../type/type";
 import fs from "fs";
 import path from "path";
 import fetch from "node-fetch";
@@ -55,30 +56,24 @@ export class PlaywrightMotorPage {
   }
 
   //INPUT MOTOR
-  async inputMotor(
-    motor_merk: string,
-    motor_type: string,
-    motor_warna_pilihan: string,
-    motor_harga: string
-  ) {
-    const motor_kode = faker.string.numeric(4);
+  async inputMotor(InputMotor: FormMotor) {
     const avatarUrl = faker.image.avatar();
     const filePath = path.resolve(__dirname, "temp_avatar.jpg");
     await this.fotoMotor(avatarUrl, filePath);
 
     await this.tambahMotor.first().click();
     await this.page.locator("input#motor_kode").waitFor({ state: "visible" });
-    await this.motorKodeInput.fill(motor_kode);
+    await this.motorKodeInput.fill(InputMotor.motor_kode);
     await this.page.locator("input#motor_merk").waitFor({ state: "visible" });
-    await this.motorMerkInput.fill(motor_merk);
+    await this.motorMerkInput.fill(InputMotor.motor_merk);
     await this.page.locator("input#motor_type").waitFor({ state: "visible" });
-    await this.motorTypeInput.fill(motor_type);
+    await this.motorTypeInput.fill(InputMotor.motor_type);
     await this.page
       .locator("input#motor_warna_pilihan")
       .waitFor({ state: "visible" });
-    await this.motorWarnaInput.fill(motor_warna_pilihan);
+    await this.motorWarnaInput.fill(InputMotor.motor_warna_pilihan);
     await this.page.locator("input#motor_harga").waitFor({ state: "visible" });
-    await this.motorHargaInput.fill(motor_harga);
+    await this.motorHargaInput.fill(InputMotor.motor_harga);
 
     await this.motorGambar.setInputFiles(filePath);
   }
@@ -93,13 +88,25 @@ export class PlaywrightMotorPage {
     ).toBeVisible();
   }
 
-  async editMotor(motor_merk: string, motor_type: string) {
-    await this.editMotorButton.click();
+  //EDIT MOTOR
+  async editMotor(EditMotor: FormMotor) {
+    const avatarUrl = faker.image.avatar();
+    const filePath = path.resolve(__dirname, "temp_avatar.jpg");
+    await this.fotoMotor(avatarUrl, filePath);
 
+    await this.editMotorButton.click();
     await this.page.locator("input#motor_merk").waitFor({ state: "visible" });
-    await this.motorMerkInput.fill(motor_merk);
+    await this.motorMerkInput.fill(EditMotor.motor_merk);
     await this.page.locator("input#motor_type").waitFor({ state: "visible" });
-    await this.motorTypeInput.fill(motor_type);
+    await this.motorTypeInput.fill(EditMotor.motor_type);
+    await this.page
+      .locator("input#motor_warna_pilihan")
+      .waitFor({ state: "visible" });
+    await this.motorWarnaInput.fill(EditMotor.motor_warna_pilihan);
+    await this.page.locator("input#motor_harga").waitFor({ state: "visible" });
+    await this.motorHargaInput.fill(EditMotor.motor_harga);
+
+    await this.motorGambar.setInputFiles(filePath);
   }
 
   async submitEditMotor() {
@@ -111,6 +118,7 @@ export class PlaywrightMotorPage {
       this.page.locator("h1", { hasText: "Daftar Motor" })
     ).toBeVisible();
   }
+
   //HAPUS MOTOR
   async hapusMotor() {
     await this.HapusMotorButton.click();

@@ -25,6 +25,16 @@ import { PlaywrightKontakPage } from "./dashboard/kontak/kontak";
 
 import { PlaywrightLogoutPage } from "./auth/logout";
 import { register } from "module";
+import {
+  defaultValueMotor,
+  defaultValuePembeli,
+  defaultValueBeliCash,
+  defaultValueKreditPaket,
+  defaultValueBeliKredit,
+  defaultValueBayarCicilan,
+  defaultValueRoles,
+  defaultValueUser,
+} from "./dashboard/faker/faker";
 
 let context: BrowserContext;
 let page: Page;
@@ -169,23 +179,32 @@ test.describe("User", () => {
   });
 
   //SUBMIT
+  test("submit motor form", async ({ sidebarPage, motorPage }) => {
+    await sidebarPage.cekMotor();
+    await motorPage.inputMotor(defaultValueMotor);
+    await motorPage.submitFormMotor();
+    await motorPage.MemastikanMotorMasuk();
+  });
+
   test("submit pembeli form", async ({ sidebarPage, pembeliPage }) => {
     await sidebarPage.cekPembeli();
-    await pembeliPage.inputpembeli("Adilla Ibrahim");
+    await pembeliPage.inputpembeli(defaultValuePembeli);
     await pembeliPage.submitFormPembeli();
     await pembeliPage.MemastikanPembeliMasuk();
   });
 
   test("submit transaksi cash form", async ({ sidebarPage, belicashPage }) => {
     await sidebarPage.cekBeliCash();
-    await belicashPage.inputbelicash(
-      "NMAX",
-      "25000000",
-      "Adilla Ibrahim",
-      "2025-01-20"
-    );
+    await belicashPage.inputbelicash(defaultValueBeliCash);
     await belicashPage.submitFormBeliCash();
     await belicashPage.MemastikanBeliCashMasuk();
+  });
+
+  test("submit kredit paket form", async ({ sidebarPage, kreditpaketPage }) => {
+    await sidebarPage.cekKreditPaket();
+    await kreditpaketPage.inputKreditPaket(defaultValueKreditPaket);
+    await kreditpaketPage.submitFormKreditPaket();
+    await kreditpaketPage.MemastikanKreditPaketMasuk();
   });
 
   test("submit transaksi kredit form", async ({
@@ -193,15 +212,7 @@ test.describe("User", () => {
     belikreditPage,
   }) => {
     await sidebarPage.cekBeliKredit();
-    await belikreditPage.inputbelikredit(
-      "Adilla Ibrahim",
-      "Beat",
-      "2025-01-01",
-      "P002",
-      "Ya",
-      "Tidak",
-      "Tidak"
-    );
+    await belikreditPage.inputbelikredit(defaultValueBeliKredit);
     await belikreditPage.submitFormBeliKredit();
     await belikreditPage.MemastikanBeliKreditMasuk();
   });
@@ -211,33 +222,96 @@ test.describe("User", () => {
     bayarcicilanPage,
   }) => {
     await sidebarPage.cekBayarCicilan();
-    await bayarcicilanPage.inputbayarcicilan("2", "2025-01-01");
+    await bayarcicilanPage.inputbayarcicilan(defaultValueBayarCicilan);
     await bayarcicilanPage.submitFormBayarCicilan();
     await bayarcicilanPage.MemastikanBayarCicilanMasuk();
   });
 
+  test("submit role form", async ({ sidebarPage, rolePage }) => {
+    await sidebarPage.cekRoles();
+    await rolePage.inputRoles(defaultValueRoles);
+    await rolePage.submitFormRoles();
+    await rolePage.MemastikanRolesMasuk();
+  });
+
+  test("submit user form", async ({ sidebarPage, userPage }) => {
+    await sidebarPage.cekUser();
+    await userPage.inputUser(defaultValueUser);
+    await userPage.submitFormUser();
+    await userPage.MemastikanUserMasuk();
+  });
+
   //EDIT
-  test("edit pembeli form", async ({ editpembeliPage, lihatpembeliPage }) => {
-    await editpembeliPage.editPembeli("Adilla Ibrahim");
+  test("edit motor form", async ({ editMotorPage, sidebarPage }) => {
+    await sidebarPage.cekMotor();
+    await editMotorPage.editMotor(defaultValueMotor);
+    await editMotorPage.submitEditMotor();
+    await editMotorPage.MemastikanEditMotorMasuk();
+  });
+
+  test("edit pembeli form", async ({
+    editpembeliPage,
+    sidebarPage,
+    lihatpembeliPage,
+  }) => {
+    await sidebarPage.cekPembeli();
+    await editpembeliPage.editPembeli(defaultValuePembeli);
     await editpembeliPage.submitFormEditPembeli();
     await editpembeliPage.MemastikanEditPembeliMasuk();
     await lihatpembeliPage.goToLihatPembeli();
   });
 
-  test("edit beli cash form", async ({ editbelicashPage }) => {
-    await editbelicashPage.editbelicash("Beat", "Adilla Ibrahim");
+  test("edit beli cash form", async ({ editbelicashPage, sidebarPage }) => {
+    await sidebarPage.cekBeliCash();
+    await editbelicashPage.editbelicash(defaultValueBeliCash);
     await editbelicashPage.submitFormEditBeliCash();
     await editbelicashPage.MemastikanEditBeliCashMasuk();
   });
 
+  test("edit kredit paket form", async ({
+    editkreditpaketPage,
+    sidebarPage,
+  }) => {
+    await sidebarPage.cekKreditPaket();
+    await editkreditpaketPage.editKreditPaket(defaultValueKreditPaket);
+    await editkreditpaketPage.submitFormKreditPaket();
+    await editkreditpaketPage.MemastikanKreditPaketMasuk();
+  });
+
   test("edit beli kredit form", async ({
     editbelikreditPage,
+    sidebarPage,
     lihatbelikreditPage,
   }) => {
-    await editbelikreditPage.editbelikredit("P002", "Tidak");
+    await sidebarPage.cekBeliKredit();
+    await editbelikreditPage.editbelikredit(defaultValueBeliKredit);
     await editbelikreditPage.submitFormEditBeliKredit();
     await editbelikreditPage.MemastikanEditBeliKreditMasuk();
     await lihatbelikreditPage.goToLihatBeliKredit();
+  });
+
+  test("edit bayar cicilan form", async ({
+    editbayarcicilanPage,
+    sidebarPage,
+  }) => {
+    await sidebarPage.cekBayarCicilan();
+    await editbayarcicilanPage.editBayarCicilan(defaultValueBayarCicilan);
+    await editbayarcicilanPage.submitEditBayarCicilan();
+    await editbayarcicilanPage.MemastikanEditBayarCicilanMasuk();
+  });
+
+  test("edit roles form", async ({ editrolePage, sidebarPage }) => {
+    await sidebarPage.cekRoles();
+    await editrolePage.editRoles(defaultValueRoles);
+    await editrolePage.submitEditRoles();
+    await editrolePage.MemastikanEditRolesMasuk();
+  });
+
+  test("edit user form", async ({ edituserPage, sidebarPage }) => {
+    await sidebarPage.cekUser();
+    await edituserPage.editUser(defaultValueUser);
+    await edituserPage.submitEditUser();
+    await edituserPage.MemastikanEditUserMasuk();
   });
 
   //HAPUS
@@ -298,44 +372,28 @@ test.describe("Admin", () => {
   //SUBMIT
   test("submit motor form", async ({ sidebarPage, motorPage }) => {
     await sidebarPage.cekMotor();
-    await motorPage.inputMotor(
-      "Kawasaki",
-      "Kawasaki KLX 150",
-      "merah",
-      "25000000"
-    );
+    await motorPage.inputMotor(defaultValueMotor);
     await motorPage.submitFormMotor();
     await motorPage.MemastikanMotorMasuk();
   });
 
   test("submit pembeli form", async ({ sidebarPage, pembeliPage }) => {
     await sidebarPage.cekPembeli();
-    await pembeliPage.inputpembeli("Adilla Ibrahim");
+    await pembeliPage.inputpembeli(defaultValuePembeli);
     await pembeliPage.submitFormPembeli();
     await pembeliPage.MemastikanPembeliMasuk();
   });
 
   test("submit transaksi cash form", async ({ sidebarPage, belicashPage }) => {
     await sidebarPage.cekBeliCash();
-    await belicashPage.inputbelicash(
-      "NMAX",
-      "25000000",
-      "Adilla Ibrahim",
-      "2025-01-20"
-    );
+    await belicashPage.inputbelicash(defaultValueBeliCash);
     await belicashPage.submitFormBeliCash();
     await belicashPage.MemastikanBeliCashMasuk();
   });
 
   test("submit kredit paket form", async ({ sidebarPage, kreditpaketPage }) => {
     await sidebarPage.cekKreditPaket();
-    await kreditpaketPage.inputKreditPaket(
-      "25000000",
-      "2000000",
-      "36",
-      "3",
-      "1800000"
-    );
+    await kreditpaketPage.inputKreditPaket(defaultValueKreditPaket);
     await kreditpaketPage.submitFormKreditPaket();
     await kreditpaketPage.MemastikanKreditPaketMasuk();
   });
@@ -345,15 +403,7 @@ test.describe("Admin", () => {
     belikreditPage,
   }) => {
     await sidebarPage.cekBeliKredit();
-    await belikreditPage.inputbelikredit(
-      "Adilla Ibrahim",
-      "Beat",
-      "2025-01-01",
-      "P002",
-      "Ya",
-      "Tidak",
-      "Tidak"
-    );
+    await belikreditPage.inputbelikredit(defaultValueBeliKredit);
     await belikreditPage.submitFormBeliKredit();
     await belikreditPage.MemastikanBeliKreditMasuk();
   });
@@ -363,21 +413,21 @@ test.describe("Admin", () => {
     bayarcicilanPage,
   }) => {
     await sidebarPage.cekBayarCicilan();
-    await bayarcicilanPage.inputbayarcicilan("8", "2025-01-01");
+    await bayarcicilanPage.inputbayarcicilan(defaultValueBayarCicilan);
     await bayarcicilanPage.submitFormBayarCicilan();
     await bayarcicilanPage.MemastikanBayarCicilanMasuk();
   });
 
   test("submit role form", async ({ sidebarPage, rolePage }) => {
     await sidebarPage.cekRoles();
-    await rolePage.inputRoles("hai");
+    await rolePage.inputRoles(defaultValueRoles);
     await rolePage.submitFormRoles();
     await rolePage.MemastikanRolesMasuk();
   });
 
   test("submit user form", async ({ sidebarPage, userPage }) => {
     await sidebarPage.cekUser();
-    await userPage.inputUser();
+    await userPage.inputUser(defaultValueUser);
     await userPage.submitFormUser();
     await userPage.MemastikanUserMasuk();
   });
@@ -385,20 +435,26 @@ test.describe("Admin", () => {
   //EDIT
   test("edit motor form", async ({ editMotorPage, sidebarPage }) => {
     await sidebarPage.cekMotor();
-    await editMotorPage.editMotor("Suzuki", "Suzuki GSX-S150");
+    await editMotorPage.editMotor(defaultValueMotor);
     await editMotorPage.submitEditMotor();
     await editMotorPage.MemastikanEditMotorMasuk();
   });
 
-  test("edit pembeli form", async ({ editpembeliPage, lihatpembeliPage }) => {
-    await editpembeliPage.editPembeli("Adilla Ibrahim");
+  test("edit pembeli form", async ({
+    sidebarPage,
+    editpembeliPage,
+    lihatpembeliPage,
+  }) => {
+    await sidebarPage.cekPembeli();
+    await editpembeliPage.editPembeli(defaultValuePembeli);
     await editpembeliPage.submitFormEditPembeli();
     await editpembeliPage.MemastikanEditPembeliMasuk();
     await lihatpembeliPage.goToLihatPembeli();
   });
 
-  test("edit beli cash form", async ({ editbelicashPage }) => {
-    await editbelicashPage.editbelicash("Beat", "Adilla Ibrahim");
+  test("edit beli cash form", async ({ sidebarPage, editbelicashPage }) => {
+    await sidebarPage.cekBeliCash();
+    await editbelicashPage.editbelicash(defaultValueBeliCash);
     await editbelicashPage.submitFormEditBeliCash();
     await editbelicashPage.MemastikanEditBeliCashMasuk();
   });
@@ -408,16 +464,18 @@ test.describe("Admin", () => {
     sidebarPage,
   }) => {
     await sidebarPage.cekKreditPaket();
-    await editkreditpaketPage.editKreditPaket("20000000", "15000000");
+    await editkreditpaketPage.editKreditPaket(defaultValueKreditPaket);
     await editkreditpaketPage.submitFormKreditPaket();
     await editkreditpaketPage.MemastikanKreditPaketMasuk();
   });
 
   test("edit beli kredit form", async ({
+    sidebarPage,
     editbelikreditPage,
     lihatbelikreditPage,
   }) => {
-    await editbelikreditPage.editbelikredit("P002", "Tidak");
+    await sidebarPage.cekBeliKredit();
+    await editbelikreditPage.editbelikredit(defaultValueBeliKredit);
     await editbelikreditPage.submitFormEditBeliKredit();
     await editbelikreditPage.MemastikanEditBeliKreditMasuk();
     await lihatbelikreditPage.goToLihatBeliKredit();
@@ -428,21 +486,21 @@ test.describe("Admin", () => {
     sidebarPage,
   }) => {
     await sidebarPage.cekBayarCicilan();
-    await editbayarcicilanPage.editBayarCicilan("10000000", "3");
+    await editbayarcicilanPage.editBayarCicilan(defaultValueBayarCicilan);
     await editbayarcicilanPage.submitEditBayarCicilan();
     await editbayarcicilanPage.MemastikanEditBayarCicilanMasuk();
   });
 
   test("edit roles form", async ({ editrolePage, sidebarPage }) => {
     await sidebarPage.cekRoles();
-    await editrolePage.editRoles("hallo");
+    await editrolePage.editRoles(defaultValueRoles);
     await editrolePage.submitEditRoles();
     await editrolePage.MemastikanEditRolesMasuk();
   });
 
   test("edit user form", async ({ edituserPage, sidebarPage }) => {
     await sidebarPage.cekUser();
-    await edituserPage.editUser("hallo");
+    await edituserPage.editUser(defaultValueUser);
     await edituserPage.submitEditUser();
     await edituserPage.MemastikanEditUserMasuk();
   });
