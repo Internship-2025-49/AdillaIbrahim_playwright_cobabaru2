@@ -1,5 +1,6 @@
 import { expect, type Locator, type Page } from "@playwright/test";
 import { faker } from "@faker-js/faker/locale/id_ID";
+import { FormKreditPaket } from "../type/type";
 
 export class PlaywrightKreditPaketPage {
   readonly page: Page;
@@ -53,41 +54,33 @@ export class PlaywrightKreditPaketPage {
   }
 
   //INPUT KREDIT PAKET
-  async inputKreditPaket(
-    paket_harga_cash: string,
-    paket_uang_muka: string,
-    paket_jumlah_cicilan: string,
-    paket_bunga: string,
-    paket_nilai_cicilan: string
-  ) {
-    const paket_kode = faker.string.numeric(4);
-
+  async inputKreditPaket(InputKreditPaket: FormKreditPaket) {
     await this.tambahKreditPaket.first().click();
     await this.page.locator("input#paket_kode").waitFor({ state: "visible" });
-    await this.kodePaketInput.fill(paket_kode);
+    await this.kodePaketInput.fill(InputKreditPaket.paket_kode);
 
     await this.page
       .locator("input#paket_harga_cash")
       .waitFor({ state: "visible" });
-    await this.hargaCashInput.fill(paket_harga_cash);
+    await this.hargaCashInput.fill(InputKreditPaket.paket_harga_cash);
 
     await this.page
       .locator("input#paket_uang_muka")
       .waitFor({ state: "visible" });
-    await this.uangMukaInput.fill(paket_uang_muka);
+    await this.uangMukaInput.fill(InputKreditPaket.paket_uang_muka);
 
     await this.page
       .locator("input#paket_jumlah_cicilan")
       .waitFor({ state: "visible" });
-    await this.jumlahCicilanInput.fill(paket_jumlah_cicilan);
+    await this.jumlahCicilanInput.fill(InputKreditPaket.paket_jumlah_cicilan);
 
     await this.page.locator("input#paket_bunga").waitFor({ state: "visible" });
-    await this.bungaInput.fill(paket_bunga);
+    await this.bungaInput.fill(InputKreditPaket.paket_bunga);
 
     await this.page
       .locator("input#paket_nilai_cicilan")
       .waitFor({ state: "visible" });
-    await this.nilaiCicilanInput.fill(paket_nilai_cicilan);
+    await this.nilaiCicilanInput.fill(InputKreditPaket.paket_nilai_cicilan);
   }
 
   async submitFormKreditPaket() {
@@ -101,17 +94,37 @@ export class PlaywrightKreditPaketPage {
   }
 
   //EDIT KREDIT PAKET
-  async editKreditPaket(paket_harga_cash: string, paket_uang_muka: string) {
+  async editKreditPaket(EditKreditPaket: FormKreditPaket) {
     await this.editKreditPaketButton.click();
+
+    // await this.page.locator("input#paket_kode").waitFor({ state: "visible" });
+    // await this.page
+    //   .locator("input#paket_kode")
+    //   .evaluate((el) => el.removeAttribute("readonly"));
+    // await this.kodePaketInput.fill(EditKreditPaket.paket_kode);
 
     await this.page
       .locator("input#paket_harga_cash")
       .waitFor({ state: "visible" });
-    await this.uangMukaEdit.fill(paket_harga_cash);
+    await this.hargaCashInput.fill(EditKreditPaket.paket_harga_cash);
+
     await this.page
       .locator("input#paket_uang_muka")
       .waitFor({ state: "visible" });
-    await this.hargaCashEdit.fill(paket_uang_muka);
+    await this.uangMukaInput.fill(EditKreditPaket.paket_uang_muka);
+
+    await this.page
+      .locator("input#paket_jumlah_cicilan")
+      .waitFor({ state: "visible" });
+    await this.jumlahCicilanInput.fill(EditKreditPaket.paket_jumlah_cicilan);
+
+    await this.page.locator("input#paket_bunga").waitFor({ state: "visible" });
+    await this.bungaInput.fill(EditKreditPaket.paket_bunga);
+
+    await this.page
+      .locator("input#paket_nilai_cicilan")
+      .waitFor({ state: "visible" });
+    await this.nilaiCicilanInput.fill(EditKreditPaket.paket_nilai_cicilan);
   }
 
   async submitEditKreditPaket() {
