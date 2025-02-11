@@ -1,5 +1,6 @@
 import { expect, type Locator, type Page } from "@playwright/test";
 import { faker } from "@faker-js/faker/locale/id_ID";
+import { FormRoles } from "../type/type";
 
 export class PlaywrightRolePage {
   readonly page: Page;
@@ -39,10 +40,10 @@ export class PlaywrightRolePage {
   }
 
   //INPUT ROLES
-  async inputRoles(role_name: string) {
+  async inputRoles(InputRoles: FormRoles) {
     await this.tambahRoles.first().click();
     await this.page.locator("input#role_name").waitFor({ state: "visible" });
-    await this.namaRoleInput.fill(role_name);
+    await this.namaRoleInput.fill(InputRoles.role_name);
   }
 
   async submitFormRoles() {
@@ -56,11 +57,11 @@ export class PlaywrightRolePage {
   }
 
   //EDIT ROLES
-  async editRoles(role_name: string) {
+  async editRoles(EditRoles: FormRoles) {
     await this.editRolesButton.click();
 
     await this.page.locator("input#role_name").waitFor({ state: "visible" });
-    await this.editNamaRoleInput.fill(role_name);
+    await this.editNamaRoleInput.fill(EditRoles.role_name);
   }
 
   async submitEditRoles() {
