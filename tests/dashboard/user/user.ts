@@ -1,5 +1,6 @@
 import { expect, type Locator, type Page } from "@playwright/test";
 import { faker } from "@faker-js/faker/locale/id_ID";
+import { FormUser } from "../type/type";
 
 export class PlaywrightUserPage {
   readonly page: Page;
@@ -12,7 +13,7 @@ export class PlaywrightUserPage {
   readonly role: Locator;
 
   readonly editUserButton: Locator;
-  readonly editnamaInput: Locator;
+  readonly editroleDropdown: Locator;
 
   readonly hapusUserButton: Locator;
   readonly konfirmasiHapusUser: Locator;
@@ -33,7 +34,7 @@ export class PlaywrightUserPage {
     this.role = page.locator("select#role_id").last();
 
     this.editUserButton = page.getByRole("row").locator("#edituser").last();
-    this.editnamaInput = page.locator("input#name");
+    this.editroleDropdown = page.locator("select#role_id").last();
 
     this.hapusUserButton = page
       .locator("button", {
@@ -47,23 +48,18 @@ export class PlaywrightUserPage {
   }
 
   //INPUT USER
-  async inputUser(role_id: string) {
-    const name = faker.person.fullName();
-    const email = faker.internet.email();
-    const password = faker.internet.password({ length: 8 });
-    const password_confirmation = password;
-
+  async inputUser(InputUser: FormUser, role_id: string) {
     await this.tambahUser.first().click();
     await this.page.locator("input#name").waitFor({ state: "visible" });
-    await this.namaInput.fill(name);
+    await this.namaInput.fill(InputUser.name);
     await this.page.locator("input#email").waitFor({ state: "visible" });
-    await this.emailInput.fill(email);
+    await this.emailInput.fill(InputUser.email);
     await this.page.locator("input#password").waitFor({ state: "visible" });
-    await this.passwordInput.fill(password);
+    await this.passwordInput.fill(InputUser.password);
     await this.page
       .locator("input#password_confirmation")
       .waitFor({ state: "visible" });
-    await this.konfirPassInput.fill(password_confirmation);
+    await this.konfirPassInput.fill(InputUser.password_confirmation);
 
     await this.page.locator("select#role_id").waitFor({ state: "visible" });
     await this.role.selectOption({ label: role_id });
@@ -80,12 +76,22 @@ export class PlaywrightUserPage {
   }
 
   //EDIT USER
-  async editUser() {
-    const name = faker.person.fullName();
+  async editUser(EditUser: FormUser, role_id: string) {
     await this.editUserButton.click();
 
     await this.page.locator("input#name").waitFor({ state: "visible" });
-    await this.editnamaInput.fill(name);
+    await this.namaInput.fill(EditUser.name);
+    await this.page.locator("input#email").waitFor({ state: "visible" });
+    await this.emailInput.fill(EditUser.email);
+    await this.page.locator("input#password").waitFor({ state: "visible" });
+    await this.passwordInput.fill(EditUser.password);
+    await this.page
+      .locator("input#password_confirmation")
+      .waitFor({ state: "visible" });
+    await this.konfirPassInput.fill(EditUser.password_confirmation);
+
+    await this.page.locator("select#role_id").waitFor({ state: "visible" });
+    await this.editroleDropdown.selectOption({ label: role_id });
   }
 
   async submitEditUser() {
