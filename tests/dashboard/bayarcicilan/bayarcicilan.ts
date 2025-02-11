@@ -1,5 +1,6 @@
 import { expect, type Locator, type Page } from "@playwright/test";
 import { faker } from "@faker-js/faker/locale/id_ID";
+import { FormBayarCicilan } from "../type/type";
 
 export class PlaywrightBayarCicilanPage {
   readonly page: Page;
@@ -14,8 +15,7 @@ export class PlaywrightBayarCicilanPage {
   readonly sisaharga: Locator;
 
   readonly editBayarCicilanButton: Locator;
-  readonly jumlahBayarEdit: Locator;
-  readonly cicilankeEdit: Locator;
+  readonly editkodeKredit: Locator;
 
   readonly hapusBayarCicilanButton: Locator;
   readonly konfirmasiHapusBayarCicilan: Locator;
@@ -41,8 +41,7 @@ export class PlaywrightBayarCicilanPage {
       .getByRole("row")
       .locator("#editbayarcicilan")
       .first();
-    this.jumlahBayarEdit = page.locator("input#cicilan_jumlah");
-    this.cicilankeEdit = page.locator("input#cicilan_ke");
+    this.editkodeKredit = page.locator("select#kridit_kode").last();
 
     this.hapusBayarCicilanButton = page
       .locator("button", {
@@ -56,16 +55,13 @@ export class PlaywrightBayarCicilanPage {
   }
 
   //INPUT BAYAR CICILAN
-  async inputbayarcicilan(kridit_kode: string, cicilan_tanggal: string) {
-    const cicilan_kode = faker.string.numeric();
-    const cicilan_jumlah = faker.string.numeric();
-    const cicilan_ke = faker.string.numeric();
-    const cicilan_sisa_ke = faker.string.numeric();
-    const cicilan_sisa_harga = faker.string.numeric();
-
+  async inputbayarcicilan(
+    InputBayarCicilan: FormBayarCicilan,
+    kridit_kode: string
+  ) {
     await this.tambahPembayaranCicilan.first().click();
     await this.page.locator("input#cicilan_kode").waitFor({ state: "visible" });
-    await this.kodeCicilan.fill(cicilan_kode);
+    await this.kodeCicilan.fill(InputBayarCicilan.cicilan_kode);
 
     await this.page.locator("select#kridit_kode").waitFor({ state: "visible" });
     await this.kodeKredit.selectOption({ label: kridit_kode });
@@ -73,25 +69,25 @@ export class PlaywrightBayarCicilanPage {
     await this.page
       .locator("input#cicilan_tanggal")
       .waitFor({ state: "visible" });
-    await this.tanggalInput.fill(cicilan_tanggal);
+    await this.tanggalInput.fill(String(InputBayarCicilan.cicilan_tanggal));
 
     await this.page
       .locator("input#cicilan_jumlah")
       .waitFor({ state: "visible" });
-    await this.jumlahBayarInput.fill(cicilan_jumlah);
+    await this.jumlahBayarInput.fill(InputBayarCicilan.cicilan_jumlah);
 
     await this.page.locator("input#cicilan_ke").waitFor({ state: "visible" });
-    await this.cicilanke.fill(cicilan_ke);
+    await this.cicilanke.fill(InputBayarCicilan.cicilan_ke);
 
     await this.page
       .locator("input#cicilan_sisa_ke")
       .waitFor({ state: "visible" });
-    await this.sisacicilan.fill(cicilan_sisa_ke);
+    await this.sisacicilan.fill(InputBayarCicilan.cicilan_sisa_ke);
 
     await this.page
       .locator("input#cicilan_sisa_harga")
       .waitFor({ state: "visible" });
-    await this.sisaharga.fill(cicilan_sisa_harga);
+    await this.sisaharga.fill(InputBayarCicilan.cicilan_sisa_harga);
   }
 
   async submitFormBayarCicilan() {
@@ -105,15 +101,43 @@ export class PlaywrightBayarCicilanPage {
   }
 
   //EDIT KREDIT PAKET
-  async editBayarCicilan(cicilan_jumlah: string, cicilan_ke: string) {
+  async editBayarCicilan(
+    EditBayarCicilan: FormBayarCicilan,
+    kridit_kode: string
+  ) {
     await this.editBayarCicilanButton.click();
+
+    // await this.page.locator("input#cicilan_kode").waitFor({ state: "visible" });
+    // await this.page
+    //   .locator("input#cicilan_kode")
+    //   .evaluate((el) => el.removeAttribute("readonly"));
+    // await this.kodeCicilan.fill(EditBayarCicilan.cicilan_kode);
+
+    await this.page.locator("select#kridit_kode").waitFor({ state: "visible" });
+    await this.editkodeKredit.selectOption({ label: kridit_kode });
+
+    await this.page
+      .locator("input#cicilan_tanggal")
+      .waitFor({ state: "visible" });
+    await this.tanggalInput.fill(String(EditBayarCicilan.cicilan_tanggal));
 
     await this.page
       .locator("input#cicilan_jumlah")
       .waitFor({ state: "visible" });
-    await this.jumlahBayarEdit.fill(cicilan_jumlah);
+    await this.jumlahBayarInput.fill(EditBayarCicilan.cicilan_jumlah);
+
     await this.page.locator("input#cicilan_ke").waitFor({ state: "visible" });
-    await this.cicilankeEdit.fill(cicilan_ke);
+    await this.cicilanke.fill(EditBayarCicilan.cicilan_ke);
+
+    await this.page
+      .locator("input#cicilan_sisa_ke")
+      .waitFor({ state: "visible" });
+    await this.sisacicilan.fill(EditBayarCicilan.cicilan_sisa_ke);
+
+    await this.page
+      .locator("input#cicilan_sisa_harga")
+      .waitFor({ state: "visible" });
+    await this.sisaharga.fill(EditBayarCicilan.cicilan_sisa_harga);
   }
 
   async submitEditBayarCicilan() {
