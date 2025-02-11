@@ -17,7 +17,7 @@ const type = faker.vehicle.model();
 const warna = faker.vehicle.color();
 const harga = faker.commerce.price({
   min: 10000000,
-  max: 1000000000,
+  max: 100000000,
   dec: 0,
 });
 
@@ -39,9 +39,9 @@ const bunga = faker.number
   .float({ multipleOf: 0.25, min: 0, max: 10 })
   .toString();
 
-// const KTP = faker.helpers.arrayElement(["Ada", "Tidak Ada"]);
-// const KK = faker.helpers.arrayElement(["Ada", "Tidak Ada"]);
-// const slipGaji = faker.helpers.arrayElement(["Ada", "Tidak Ada"]);
+export const KTP = faker.helpers.arrayElement(["Ya", "Tidak"]);
+export const KK = faker.helpers.arrayElement(["Ya", "Tidak"]);
+export const slipGaji = faker.helpers.arrayElement(["Ya", "Tidak"]);
 
 const role = faker.name.jobType();
 
@@ -66,7 +66,7 @@ export const defaultValuePembeli: FormPembeli = {
 
 export const defaultValueBeliCash: FormBeliCash = {
   cash_kode: kode,
-  // pembeli_No_KTP: noKTP,
+  pembeli_No_KTP: "Devi Devi Permata",
   // motor_kode: kode,
   cash_tanggal: tanggal,
   cash_bayar: harga,
@@ -87,9 +87,9 @@ export const defaultValueBeliKredit: FormBeliKredit = {
   // motor_kode: kode,
   // paket_kode: kode,
   kridit_tanggal: tanggal,
-  // fotokopi_KTP: KTP,
-  // fotokopi_KK: KK,
-  // fotokopi_slip_gaji: slipGaji,
+  fotokopi_KTP: KTP,
+  fotokopi_KK: KK,
+  fotokopi_slip_gaji: slipGaji,
 };
 
 export const defaultValueBayarCicilan: FormBayarCicilan = {

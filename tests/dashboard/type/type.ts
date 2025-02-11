@@ -15,7 +15,7 @@ export interface FormPembeli {
 
 export interface FormBeliCash {
   cash_kode: string;
-  // pembeli_No_KTP: string;
+  pembeli_No_KTP: string;
   // motor_kode: string;
   cash_tanggal: string;
   cash_bayar: string;
@@ -36,9 +36,9 @@ export interface FormBeliKredit {
   // // motor_kode: string;
   // paket_kode: string;
   kridit_tanggal: string;
-  // fotokopi_KTP: string;
-  // fotokopi_KK: string;
-  // fotokopi_slip_gaji: string;
+  fotokopi_KTP: string;
+  fotokopi_KK: string;
+  fotokopi_slip_gaji: string;
 }
 
 export interface FormBayarCicilan {

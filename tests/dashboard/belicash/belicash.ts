@@ -33,9 +33,9 @@ export class PlaywrightBeliCashPage {
       hasText: "Tambah Transaksi Cash",
     });
     this.kodeTransaksiInput = page.locator("input#cash_kode");
-    this.motorDropdown = page.locator("select#motor_kode");
+    this.motorDropdown = page.locator("select#motor_kode").last();
     this.jumlahBayarInput = page.locator("input#cash_bayar");
-    this.pembeliDropdown = page.locator("select#pembeli_No_KTP").first();
+    this.pembeliDropdown = page.locator("select#pembeli_No_KTP").last();
     this.tanggalInput = page.locator("input#cash_tanggal");
 
     this.editBeliCashButton = page
@@ -45,8 +45,8 @@ export class PlaywrightBeliCashPage {
     this.tambahTransaksiCash = page.locator("a", {
       hasText: "Tambah Transaksi Cash",
     });
-    this.editmotorDropdown = page.locator("select#motor_kode");
-    this.editpembeliDropdown = page.locator("select#pembeli_No_KTP");
+    this.editmotorDropdown = page.locator("select#motor_kode").last();
+    this.editpembeliDropdown = page.locator("select#pembeli_No_KTP").last();
 
     this.simpanButton = page.locator("button", { hasText: "Simpan" });
 
@@ -63,7 +63,7 @@ export class PlaywrightBeliCashPage {
   //INPUT BELI CASH
   async inputbelicash(
     InputBeliCash: FormBeliCash,
-    pembeli_No_KTP: string,
+    // pembeli_No_KTP: string,
     motor_kode: string
   ) {
     await this.tambahTransaksiCash.first().click();
@@ -72,8 +72,10 @@ export class PlaywrightBeliCashPage {
     await this.page
       .locator("select#pembeli_No_KTP")
       .waitFor({ state: "visible" });
-    await this.pembeliDropdown.selectOption({ label: pembeli_No_KTP });
+
+    await this.pembeliDropdown.selectOption(InputBeliCash.pembeli_No_KTP);
     await this.page.locator("select#motor_kode").waitFor({ state: "visible" });
+    await this.page.getByLabel("Motor").selectOption("select#motor_kode");
     await this.motorDropdown.selectOption({ label: motor_kode });
     await this.page.locator("input#cash_tanggal").waitFor({ state: "visible" });
     await this.tanggalInput.fill(InputBeliCash.cash_tanggal);
@@ -110,9 +112,10 @@ export class PlaywrightBeliCashPage {
     await this.page
       .locator("select#pembeli_No_KTP")
       .waitFor({ state: "visible" });
-    await this.pembeliDropdown.selectOption({ label: pembeli_No_KTP });
+    await this.editpembeliDropdown.selectOption({ label: pembeli_No_KTP });
     await this.page.locator("select#motor_kode").waitFor({ state: "visible" });
-    await this.motorDropdown.selectOption({ label: motor_kode });
+    await this.editmotorDropdown.selectOption({ label: motor_kode });
+
     await this.page.locator("input#cash_tanggal").waitFor({ state: "visible" });
     await this.tanggalInput.fill(String(EditBeliCash.cash_tanggal));
     await this.page.locator("input#cash_bayar").waitFor({ state: "visible" });
